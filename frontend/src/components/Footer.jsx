@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-3 gap-8 mb-8">
           <div>
-            <h3 className="text-2xl font-bold text-orange-500 mb-4">Pasal</h3>
+            <h3 className="text-2xl font-bold text-primary-500 mb-4">Pasal</h3>
             <p className="text-sm text-gray-300">
               Pasal is a Local E-commerce site. You can buy all electronic and
               cloth item from our stores
@@ -17,17 +17,17 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4">About Us</h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#" className="hover:text-orange-500">
+                <a href="#" className="hover:text-primary-500">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-500">
+                <a href="#" className="hover:text-primary-500">
                   Terms & Conditions
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-500">
+                <a href="#" className="hover:text-primary-500">
                   Return Policy
                 </a>
               </li>
@@ -38,12 +38,12 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#" className="hover:text-orange-500">
+                <a href="#" className="hover:text-primary-500">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-orange-500">
+                <a href="#" className="hover:text-primary-500">
                   Terms & Conditions
                 </a>
               </li>
@@ -57,7 +57,7 @@ const Footer = () => {
                   placeholder="Enter email"
                   className="flex-1 px-3 py-2 text-gray-900 rounded-l"
                 />
-                <button className="bg-orange-500 px-4 py-2 rounded-r hover:bg-orange-600">
+                <button className="bg-primary-500 px-4 py-2 rounded-r hover:bg-primary-600">
                   →
                 </button>
               </div>
