@@ -23,6 +23,9 @@ const cartItemSchema = new mongoose.Schema({
   addedAt: { type: Date, default: Date.now },
 });
 
+// Enforce unique constraint: one product per cart
+cartItemSchema.index({ cart: 1, product: 1 }, { unique: true });
+
 const cartSchema = new mongoose.Schema(
   {
     user: {
