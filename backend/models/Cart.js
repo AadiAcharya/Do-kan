@@ -38,9 +38,12 @@ const cartSchema = new mongoose.Schema(
     couponCode: String,
     couponDiscount: { type: Number, default: 0 },
     // TTL: cart auto-expires if abandoned (optional)
-    expiresAt: { type: Date, default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) }, // 30 days
+    expiresAt: {
+      type: Date,
+      default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    }, // 30 days
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Virtual: total price
