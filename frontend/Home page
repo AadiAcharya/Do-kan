@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOKAN - Home</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      background:#f5f7fb;
+      color:#222;
+    }
+
+    /* NAVBAR */
+
+    .navbar{
+      background:white;
+      padding:18px 60px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #ddd;
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    .logo{
+      font-size:28px;
+      font-weight:bold;
+      color:#2563eb;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      margin-left:25px;
+      color:#444;
+      font-size:15px;
+    }
+
+    .nav-links a:hover{
+      color:#2563eb;
+    }
+
+    .login-btn{
+      background:#2563eb;
+      color:white !important;
+      padding:10px 18px;
+      border-radius:6px;
+    }
+
+    /* HERO SECTION */
+
+    .hero{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:80px 60px;
+      background:white;
+      flex-wrap:wrap;
+    }
+
+    .hero-text{
+      max-width:550px;
+    }
+
+    .hero-text h1{
+      font-size:52px;
+      line-height:1.2;
+      margin-bottom:20px;
+    }
+
+    .hero-text h1 span{
+      color:#2563eb;
+    }
+
+    .hero-text p{
+      color:#666;
+      font-size:18px;
+      line-height:1.6;
+      margin-bottom:30px;
+    }
+
+    .hero-buttons{
+      display:flex;
+      gap:15px;
+    }
+
+    .btn{
+      padding:14px 24px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:15px;
+    }
+
+    .primary{
+      background:#2563eb;
+      color:white;
+    }
+
+    .primary:hover{
+      background:#1d4ed8;
+    }
+
+    .secondary{
+      background:#e5edff;
+      color:#2563eb;
+    }
+
+    .hero-image img{
+      width:500px;
+      max-width:100%;
+    }
+
+    /* CATEGORY SECTION */
+
+    .section{
+      padding:70px 60px;
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:40px;
+    }
+
+    .section-title h2{
+      font-size:36px;
+      margin-bottom:10px;
+    }
+
+    .section-title p{
+      color:gray;
+    }
+
+    .categories{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:20px;
+    }
+
+    .category-card{
+      background:white;
+      padding:30px;
+      border-radius:10px;
+      text-align:center;
+      box-shadow:0 0 10px rgba(0,0,0,0.05);
+      transition:0.3s;
+    }
+
+    .category-card:hover{
+      transform:translateY(-5px);
+    }
+
+    .category-card h3{
+      margin-top:15px;
+      color:#2563eb;
+    }
+
+    /* PRODUCTS */
+
+    .products{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+    }
+
+    .product-card{
+      background:white;
+      border-radius:10px;
+      overflow:hidden;
+      box-shadow:0 0 10px rgba(0,0,0,0.08);
+      transition:0.3s;
+    }
+
+    .product-card:hover{
+      transform:translateY(-5px);
+    }
+
+    .product-card img{
+      width:100%;
+      height:250px;
+      object-fit:cover;
+    }
+
+    .product-info{
+      padding:20px;
+    }
+
+    .product-info h4{
+      margin-bottom:10px;
+    }
+
+    .price{
+      color:#2563eb;
+      font-size:20px;
+      font-weight:bold;
+      margin-bottom:15px;
+    }
+
+    .buy-btn{
+      width:100%;
+      padding:12px;
+      border:none;
+      background:#2563eb;
+      color:white;
+      border-radius:5px;
+      cursor:pointer;
+    }
+
+    .buy-btn:hover{
+      background:#1d4ed8;
+    }
+
+    /* SELLER SECTION */
+
+    .seller{
+      background:#2563eb;
+      color:white;
+      text-align:center;
+      padding:70px 20px;
+    }
+
+    .seller h2{
+      font-size:40px;
+      margin-bottom:20px;
+    }
+
+    .seller p{
+      max-width:700px;
+      margin:auto;
+      line-height:1.7;
+      margin-bottom:30px;
+    }
+
+    .seller button{
+      padding:14px 28px;
+      border:none;
+      background:white;
+      color:#2563eb;
+      border-radius:6px;
+      font-size:16px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    /* FOOTER */
+
+    footer{
+      background:#111827;
+      color:white;
+      padding:40px 60px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:20px;
+    }
+
+    .footer-links a{
+      display:block;
+      color:#d1d5db;
+      text-decoration:none;
+      margin-bottom:10px;
+    }
+
+    .footer-links a:hover{
+      color:white;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:768px){
+
+      .navbar{
+        flex-direction:column;
+        gap:15px;
+        padding:20px;
+      }
+
+      .hero{
+        flex-direction:column;
+        text-align:center;
+        padding:50px 20px;
+      }
+
+      .hero-text h1{
+        font-size:38px;
+      }
+
+      .hero-buttons{
+        justify-content:center;
+      }
+
+      .section{
+        padding:50px 20px;
+      }
+
+      footer{
+        padding:30px 20px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <div class="navbar">
+
+    <div class="logo">DOKAN</div>
+
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Categories</a>
+      <a href="#">Vendors</a>
+      <a href="#">Deals</a>
+      <a href="#" class="login-btn">Login</a>
+    </div>
+
+  </div>
+
+  <!-- HERO SECTION -->
+
+  <section class="hero">
+
+    <div class="hero-text">
+
+      <h1>
+        Discover Amazing Products on 
+        <span>DOKAN</span>
+      </h1>
+
+      <p>
+        Shop from trusted vendors around the world. 
+        Explore electronics, fashion, beauty, lifestyle 
+        and many more categories with best deals.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="btn primary">Start Shopping</button>
+        <button class="btn secondary">Become Seller</button>
+      </div>
+
+    </div>
+
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop" alt="Shopping">
+    </div>
+
+  </section>
+
+  <!-- CATEGORY SECTION -->
+
+  <section class="section">
+
+    <div class="section-title">
+      <h2>Top Categories</h2>
+      <p>Browse products from trending categories</p>
+    </div>
+
+    <div class="categories">
+
+      <div class="category-card">
+        <h3>Electronics</h3>
+      </div>
+
+      <div class="category-card">
+        <h3>Fashion</h3>
+      </div>
+
+      <div class="category-card">
+        <h3>Beauty</h3>
+      </div>
+
+      <div class="category-card">
+        <h3>Home Decor</h3>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+
+  <section class="section">
+
+    <div class="section-title">
+      <h2>Featured Products</h2>
+      <p>Best selling items this week</p>
+    </div>
+
+    <div class="products">
+
+      <div class="product-card">
+
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop">
+
+        <div class="product-info">
+          <h4>Nike Sneakers</h4>
+          <div class="price">$120</div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+
+      </div>
+
+      <div class="product-card">
+
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200&auto=format&fit=crop">
+
+        <div class="product-info">
+          <h4>Smartphone</h4>
+          <div class="price">$899</div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+
+      </div>
+
+      <div class="product-card">
+
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200&auto=format&fit=crop">
+
+        <div class="product-info">
+          <h4>Wireless Headphones</h4>
+          <div class="price">$199</div>
+          <button class="buy-btn">Add to Cart</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SELLER SECTION -->
+
+  <section class="seller">
+
+    <h2>Start Selling on DOKAN</h2>
+
+    <p>
+      Join thousands of vendors and grow your business 
+      with our easy-to-use multi-vendor marketplace platform.
+    </p>
+
+    <button>Become a Vendor</button>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div>
+      <h2>DOKAN</h2>
+      <p>
+        Your trusted multi-vendor marketplace platform.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <a href="#">About Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms & Conditions</a>
+      <a href="#">Support</a>
+    </div>
+
+  </footer>
+
+</body>
+</html>
