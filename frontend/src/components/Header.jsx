@@ -1,7 +1,11 @@
 import React from "react";
+import { useNavigate} from "react-router-dom"
 import { ShoppingCart } from "lucide-react";
 
+
+
 const Header = () => {
+  const navigate = useNavigate()
   return (
     <header className="bg-white shadow">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -11,7 +15,7 @@ const Header = () => {
             <button className="text-sm font-medium hover:text-primary-500">
               Help
             </button>
-            <button className="text-sm font-medium hover:text-primary-500">
+            <button onClick={()=> navigate("/cart")} className="text-sm font-medium hover:text-primary-500">
               Cart
             </button>
             <button className="text-sm font-medium hover:text-primary-500">
