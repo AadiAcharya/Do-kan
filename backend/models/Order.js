@@ -56,7 +56,7 @@ const orderItemSchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema(
   {
-    orderNumber: { type: String, required: true, unique: true }, // e.g. "DOK-20260001"
+    orderNumber: type: String, required: true, unique: true }, // e.g. "DOK-20260001"
     customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
