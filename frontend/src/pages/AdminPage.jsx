@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import VendorApplicationReview from '../components/VendorApplicationReview';
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('products');
@@ -47,6 +48,16 @@ const AdminPage = () => {
           }`}
         >
           Manage Users
+        </button>
+        <button
+          onClick={() => setActiveTab('vendors')}
+          className={`px-6 py-2 rounded-lg font-semibold ${
+            activeTab === 'vendors' 
+              ? 'bg-blue-600 text-white' 
+              : 'bg-white text-gray-700 border border-gray-300'
+          }`}
+        >
+          Vendor Applications
         </button>
       </div>
 
@@ -142,6 +153,9 @@ const AdminPage = () => {
           </div>
         </div>
       )}
+
+      {/* Vendor Applications Tab */}
+      {activeTab === 'vendors' && <VendorApplicationReview />}
     </div>
   );
 };
