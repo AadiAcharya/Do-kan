@@ -31,9 +31,8 @@ app.use((err, req, res, next) => {
 });
 
 // MongoDB connection
-const PORT = process.env.PORT || 5000;
-const MONGO_URI =
-  process.env.MONGO_URI || "mongodb://localhost:27017/product_catalog";
+const PORT = process.env.PORT || 3001;
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/dokan";
 
 mongoose
   .connect(MONGO_URI, {
