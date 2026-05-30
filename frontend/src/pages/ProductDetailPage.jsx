@@ -125,7 +125,7 @@ const ProductDetailPage = () => {
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   e.target.src =
-                    "https://via.placeholder.com/500x500?text=No+Image";
+                    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&h=500&fit=crop";
                 }}
               />
 

@@ -58,8 +58,11 @@ const seedData = async () => {
         price: 159999,
         compareAtPrice: 179999,
         sku: "SKU-001",
-        images: ["https://via.placeholder.com/400x400?text=iPhone+15"],
-        thumbnail: "https://via.placeholder.com/400x400?text=iPhone+15",
+        images: [
+          "https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1591290621749-586861f28b6d?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop",
         stock: 25,
         status: "active",
         isActive: true,
@@ -75,8 +78,11 @@ const seedData = async () => {
         price: 89999,
         compareAtPrice: 99999,
         sku: "SKU-002",
-        images: ["https://via.placeholder.com/400x400?text=Galaxy+S24"],
-        thumbnail: "https://via.placeholder.com/400x400?text=Galaxy+S24",
+        images: [
+          "https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=400&h=400&fit=crop",
         stock: 40,
         status: "active",
         isActive: true,
@@ -91,8 +97,11 @@ const seedData = async () => {
         price: 29999,
         compareAtPrice: 34999,
         sku: "SKU-003",
-        images: ["https://via.placeholder.com/400x400?text=Sony+Headphones"],
-        thumbnail: "https://via.placeholder.com/400x400?text=Sony+Headphones",
+        images: [
+          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
         stock: 60,
         status: "active",
         isActive: true,
@@ -107,8 +116,11 @@ const seedData = async () => {
         price: 79999,
         compareAtPrice: 89999,
         sku: "SKU-004",
-        images: ["https://via.placeholder.com/400x400?text=iPad+Air"],
-        thumbnail: "https://via.placeholder.com/400x400?text=iPad+Air",
+        images: [
+          "https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=400&h=400&fit=crop",
         stock: 30,
         status: "active",
         isActive: true,
@@ -123,8 +135,11 @@ const seedData = async () => {
         price: 699,
         compareAtPrice: 899,
         sku: "SKU-005",
-        images: ["https://via.placeholder.com/400x400?text=T-Shirt"],
-        thumbnail: "https://via.placeholder.com/400x400?text=T-Shirt",
+        images: [
+          "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1555821552-6f6c9adbd806?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
         stock: 150,
         status: "active",
         isActive: true,
@@ -139,8 +154,11 @@ const seedData = async () => {
         price: 1799,
         compareAtPrice: 2299,
         sku: "SKU-006",
-        images: ["https://via.placeholder.com/400x400?text=Jeans"],
-        thumbnail: "https://via.placeholder.com/400x400?text=Jeans",
+        images: [
+          "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1505959915551-3e092f3a7bb1?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop",
         stock: 80,
         status: "active",
         isActive: true,
@@ -155,8 +173,11 @@ const seedData = async () => {
         price: 2999,
         compareAtPrice: 3999,
         sku: "SKU-007",
-        images: ["https://via.placeholder.com/400x400?text=Wallet"],
-        thumbnail: "https://via.placeholder.com/400x400?text=Wallet",
+        images: [
+          "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1526378800838-dd5abb3d24f9?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop",
         stock: 100,
         status: "active",
         isActive: true,
@@ -171,8 +192,11 @@ const seedData = async () => {
         price: 19999,
         compareAtPrice: 24999,
         sku: "SKU-008",
-        images: ["https://via.placeholder.com/400x400?text=Smartwatch"],
-        thumbnail: "https://via.placeholder.com/400x400?text=Smartwatch",
+        images: [
+          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1523439097956-48aba1c1e0f8?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
         stock: 45,
         status: "active",
         isActive: true,
@@ -187,8 +211,11 @@ const seedData = async () => {
         price: 599,
         compareAtPrice: 799,
         sku: "SKU-009",
-        images: ["https://via.placeholder.com/400x400?text=USB-C+Cable"],
-        thumbnail: "https://via.placeholder.com/400x400?text=USB-C+Cable",
+        images: [
+          "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
         stock: 200,
         status: "active",
         isActive: true,
@@ -203,8 +230,11 @@ const seedData = async () => {
         price: 1999,
         compareAtPrice: 2499,
         sku: "SKU-010",
-        images: ["https://via.placeholder.com/400x400?text=Power+Bank"],
-        thumbnail: "https://via.placeholder.com/400x400?text=Power+Bank",
+        images: [
+          "https://images.unsplash.com/photo-1590584473555-42072f3be51d?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1590584473555-42072f3be51d?w=400&h=400&fit=crop",
         stock: 120,
         status: "active",
         isActive: true,
@@ -219,8 +249,11 @@ const seedData = async () => {
         price: 1499,
         compareAtPrice: 1999,
         sku: "SKU-011",
-        images: ["https://via.placeholder.com/400x400?text=Wireless+Mouse"],
-        thumbnail: "https://via.placeholder.com/400x400?text=Wireless+Mouse",
+        images: [
+          "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
         stock: 90,
         status: "active",
         isActive: true,
@@ -235,8 +268,11 @@ const seedData = async () => {
         price: 4999,
         compareAtPrice: 6999,
         sku: "SKU-012",
-        images: ["https://via.placeholder.com/400x400?text=Keyboard"],
-        thumbnail: "https://via.placeholder.com/400x400?text=Keyboard",
+        images: [
+          "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
+          "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop"
+        ],
+        thumbnail: "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
         stock: 50,
         status: "active",
         isActive: true,

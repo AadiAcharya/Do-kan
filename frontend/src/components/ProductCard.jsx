@@ -5,20 +5,8 @@ const ProductCard = ({ product, onClick }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const images = product?.images && product.images.length > 0 ? product.images : [
-    product?.thumbnail || "https://via.placeholder.com/300x300?text=Product",
+    product?.thumbnail || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
   ];
-
-  // Debug logging
-  React.useEffect(() => {
-    if (!product) return;
-    console.log("ProductCard Debug:", {
-      productName: product.name,
-      hasImages: !!product.images,
-      imagesArray: product.images,
-      imageCount: product.images?.length || 0,
-      thumbnail: product.thumbnail,
-    });
-  }, [product]);
 
   const goToPrevImage = (e) => {
     e.stopPropagation();
@@ -50,7 +38,7 @@ const ProductCard = ({ product, onClick }) => {
           alt={product?.name}
           className="w-full h-full object-cover"
           onError={(e) => {
-            e.target.src = "https://via.placeholder.com/300x300?text=No+Image";
+            e.target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop";
           }}
         />
 
