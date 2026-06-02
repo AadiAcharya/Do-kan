@@ -4,9 +4,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const ProductCard = ({ product, onClick }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const images = product?.images && product.images.length > 0 ? product.images : [
-    product?.thumbnail || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
-  ];
+  const images =
+    product?.images && product.images.length > 0
+      ? product.images
+      : [
+          product?.thumbnail ||
+            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
+        ];
 
   const goToPrevImage = (e) => {
     e.stopPropagation();
@@ -38,7 +42,8 @@ const ProductCard = ({ product, onClick }) => {
           alt={product?.name}
           className="w-full h-full object-cover"
           onError={(e) => {
-            e.target.src = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop";
+            e.target.src =
+              "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop";
           }}
         />
 

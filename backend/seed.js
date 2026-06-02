@@ -60,9 +60,10 @@ const seedData = async () => {
         sku: "SKU-001",
         images: [
           "https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1591290621749-586861f28b6d?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1591290621749-586861f28b6d?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop",
         stock: 25,
         status: "active",
         isActive: true,
@@ -80,9 +81,10 @@ const seedData = async () => {
         sku: "SKU-002",
         images: [
           "https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=400&h=400&fit=crop",
         stock: 40,
         status: "active",
         isActive: true,
@@ -99,9 +101,10 @@ const seedData = async () => {
         sku: "SKU-003",
         images: [
           "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
         stock: 60,
         status: "active",
         isActive: true,
@@ -118,9 +121,10 @@ const seedData = async () => {
         sku: "SKU-004",
         images: [
           "https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=400&h=400&fit=crop",
         stock: 30,
         status: "active",
         isActive: true,
@@ -137,9 +141,10 @@ const seedData = async () => {
         sku: "SKU-005",
         images: [
           "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1555821552-6f6c9adbd806?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1555821552-6f6c9adbd806?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
         stock: 150,
         status: "active",
         isActive: true,
@@ -156,9 +161,10 @@ const seedData = async () => {
         sku: "SKU-006",
         images: [
           "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1505959915551-3e092f3a7bb1?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1505959915551-3e092f3a7bb1?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop",
         stock: 80,
         status: "active",
         isActive: true,
@@ -175,9 +181,10 @@ const seedData = async () => {
         sku: "SKU-007",
         images: [
           "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1526378800838-dd5abb3d24f9?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1526378800838-dd5abb3d24f9?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop",
         stock: 100,
         status: "active",
         isActive: true,
@@ -194,9 +201,10 @@ const seedData = async () => {
         sku: "SKU-008",
         images: [
           "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1523439097956-48aba1c1e0f8?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1523439097956-48aba1c1e0f8?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
         stock: 45,
         status: "active",
         isActive: true,
@@ -213,9 +221,10 @@ const seedData = async () => {
         sku: "SKU-009",
         images: [
           "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
         stock: 200,
         status: "active",
         isActive: true,
@@ -232,9 +241,10 @@ const seedData = async () => {
         sku: "SKU-010",
         images: [
           "https://images.unsplash.com/photo-1590584473555-42072f3be51d?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1590584473555-42072f3be51d?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1590584473555-42072f3be51d?w=400&h=400&fit=crop",
         stock: 120,
         status: "active",
         isActive: true,
@@ -251,9 +261,10 @@ const seedData = async () => {
         sku: "SKU-011",
         images: [
           "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
         stock: 90,
         status: "active",
         isActive: true,
@@ -270,9 +281,10 @@ const seedData = async () => {
         sku: "SKU-012",
         images: [
           "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop"
+          "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
         ],
-        thumbnail: "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
+        thumbnail:
+          "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
         stock: 50,
         status: "active",
         isActive: true,

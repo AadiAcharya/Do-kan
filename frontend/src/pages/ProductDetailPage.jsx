@@ -10,15 +10,18 @@ import {
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { fetchProducts } from "../services/api";
+import { useCart } from "../context/CartContext";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -85,8 +88,9 @@ const ProductDetailPage = () => {
 
   const handleAddToCart = () => {
     if (outOfStock) return;
-    // TODO: Implement cart functionality
-    console.log(`Added ${quantity} of ${product.name} to cart`);
+    addToCart(product, quantity);
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
   };
 
   const discount = product?.compareAtPrice
@@ -293,7 +297,7 @@ const ProductDetailPage = () => {
                   className="flex-1 bg-primary text-white font-bold py-3 rounded-lg hover:opacity-90 transition disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   <ShoppingCart size={20} />
-                  Add to Cart
+                  {addedToCart ? "Added to Cart!" : "Add to Cart"}
                 </button>
                 <button
                   onClick={() => setIsWishlisted(!isWishlisted)}
