@@ -1,93 +1,96 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { useAuth } from "./AuthContext";
 
-const CartContext = createContext();
-
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used within CartProvider");
-  }
-  return context;
-};
+const CartContext = createContext(null);
+const API = "http://localhost:3001/api";
 
 export const CartProvider = ({ children }) => {
-  const [items, setItems] = useState(() => {
-    // Load from localStorage on mount
-    const saved = localStorage.getItem("cart");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const { token, isLoggedIn } = useAuth();
+  const [items, setItems]   = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Save to localStorage whenever items change
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(items));
-  }, [items]);
-
-  const addToCart = (product, quantity = 1) => {
-    setItems((prevItems) => {
-      // Check if product already in cart
-      const existingItem = prevItems.find((item) => item._id === product._id);
-
-      if (existingItem) {
-        // Increase quantity if already exists
-        return prevItems.map((item) =>
-          item._id === product._id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item,
-        );
-      }
-
-      // Add new item to cart
-      return [
-        ...prevItems,
-        {
-          ...product,
-          quantity,
-          cartId: `${product._id}-${Date.now()}`, // Unique cart item ID
-        },
-      ];
-    });
-  };
-
-  const removeFromCart = (cartId) => {
-    setItems((prevItems) => prevItems.filter((item) => item.cartId !== cartId));
-  };
-
-  const updateQuantity = (cartId, quantity) => {
-    if (quantity <= 0) {
-      removeFromCart(cartId);
-      return;
+  // Fetch cart from backend when logged in
+  const fetchCart = useCallback(async () => {
+    if (!isLoggedIn || !token) { setItems([]); return; }
+    try {
+      setLoading(true);
+      const res = await fetch(`${API}/cart`, { headers: { Authorization: `Bearer ${token}` } });
+      const data = await res.json();
+      if (data.success) setItems(data.data.items || []);
+    } catch (err) {
+      console.error("Cart fetch error:", err);
+    } finally {
+      setLoading(false);
     }
+  }, [isLoggedIn, token]);
 
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.cartId === cartId ? { ...item, quantity } : item,
-      ),
-    );
+  useEffect(() => { fetchCart(); }, [fetchCart]);
+
+  const addItem = async (productId, quantity = 1) => {
+    if (!isLoggedIn) return { error: "Please log in to add items to cart." };
+    try {
+      const res = await fetch(`${API}/cart`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ productId, quantity }),
+      });
+      const data = await res.json();
+      if (data.success) setItems(data.data.items || []);
+      return data;
+    } catch (err) {
+      return { error: "Failed to add item." };
+    }
   };
 
-  const clearCart = () => {
-    setItems([]);
+  const updateQty = async (productId, quantity) => {
+    if (quantity < 1) return removeItem(productId);
+    try {
+      const res = await fetch(`${API}/cart/${productId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ quantity }),
+      });
+      const data = await res.json();
+      if (data.success) setItems(data.data.items || []);
+    } catch (err) {
+      console.error("Update qty error:", err);
+    }
   };
 
-  const getTotalItems = () => {
-    return items.reduce((sum, item) => sum + item.quantity, 0);
+  const removeItem = async (productId) => {
+    try {
+      const res = await fetch(`${API}/cart/${productId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (data.success) setItems(data.data.items || []);
+    } catch (err) {
+      console.error("Remove item error:", err);
+    }
   };
 
-  const getSubtotal = () => {
-    return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const clearCart = async () => {
+    try {
+      await fetch(`${API}/cart`, { method: "DELETE", headers: { Authorization: `Bearer ${token}` } });
+      setItems([]);
+    } catch (err) {
+      console.error("Clear cart error:", err);
+    }
   };
 
-  const value = {
-    items,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    getTotalItems,
-    getSubtotal,
-  };
+  const itemCount = items.reduce((s, i) => s + i.quantity, 0);
+  const subtotal  = items.reduce((s, i) => s + i.price * i.quantity, 0);
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={{ items, loading, addItem, updateQty, removeItem, clearCart, itemCount, subtotal, fetchCart }}>
+      {children}
+    </CartContext.Provider>
+  );
 };
 
-export default CartContext;
+export const useCart = () => {
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart must be inside CartProvider");
+  return ctx;
+};

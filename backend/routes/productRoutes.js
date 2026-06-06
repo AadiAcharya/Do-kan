@@ -1,20 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  deleteProduct,
+  getProducts, getProductById, createProduct,
+  updateProduct, deleteProduct, updateStock,
 } = require("../controllers/productController");
+const { protect, restrictTo } = require("../middleware/auth");
+const { attachVendor } = require("../middleware/vendor");
 
-// Public routes
+// Public
 router.get("/", getProducts);
 router.get("/:id", getProductById);
 
-// Protected routes (will add authentication middleware later)
-router.post("/", createProduct);
-router.put("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
+// Vendor-protected
+router.post("/", protect, restrictTo("vendor", "admin"), attachVendor, createProduct);
+router.put("/:id/stock", protect, restrictTo("vendor", "admin"), updateStock);
+router.put("/:id", protect, restrictTo("vendor", "admin"), updateProduct);
+router.delete("/:id", protect, restrictTo("vendor", "admin"), deleteProduct);
 
 module.exports = router;

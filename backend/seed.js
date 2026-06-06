@@ -13,40 +13,88 @@ const seedData = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-
     console.log("Connected to MongoDB");
 
-    // Clear existing data
     await Product.deleteMany({});
     await Category.deleteMany({});
     await Vendor.deleteMany({});
     await User.deleteMany({});
 
-    // Create sample user
-    const user = await User.create({
-      name: "John Seller",
-      email: "seller@example.com",
-      password: "hashed_password",
-      role: "vendor",
+    // Admin user (role set directly — not through registration)
+    const admin = await User.create({
+      name: "DOKAN Admin",
+      email: "admin@dokan.com",
+      password: "admin123",
+      role: "admin",
+      isEmailVerified: true,
     });
 
-    // Create sample vendor
+    // Vendor user
+    const vendorUser = await User.create({
+      name: "John Seller",
+      email: "seller@dokan.com",
+      password: "seller123",
+      role: "vendor",
+      isEmailVerified: true,
+    });
+
+    // Sample customer
+    await User.create({
+      name: "Jane Customer",
+      email: "customer@dokan.com",
+      password: "customer123",
+      role: "customer",
+      isEmailVerified: true,
+    });
+
+    // Approved vendor
     const vendor = await Vendor.create({
-      user: user._id,
+      user: vendorUser._id,
       storeName: "Tech Store",
       storeSlug: "tech-store",
       storeDescription: "Premium electronics and gadgets",
       approvalStatus: "approved",
     });
 
-    // Create sample categories
+    // Pending vendor application (for admin to review)
+    const pendingUser = await User.create({
+      name: "Fashion Owner",
+      email: "fashion@dokan.com",
+      password: "fashion123",
+      role: "customer",
+    });
+    await Vendor.create({
+      user: pendingUser._id,
+      storeName: "Fashion Hub",
+      storeSlug: "fashion-hub",
+      storeDescription: "Latest fashion collections",
+      storeAddress: "Pokhara, Nepal",
+      storePhone: "+977-9842234567",
+      approvalStatus: "pending",
+      kyc: {
+        documentType: "citizenship",
+        documentNumber: "1234567890",
+        frontImage:
+          "https://via.placeholder.com/400x300?text=Citizenship+Front",
+        backImage: "https://via.placeholder.com/400x300?text=Citizenship+Back",
+        selfie: "https://via.placeholder.com/400x300?text=Selfie",
+      },
+      bankDetails: {
+        bankName: "Standard Chartered Bank",
+        accountHolderName: "Fashion Hub Stores",
+        accountNumber: "1122334455",
+        ifscCode: "SCBL0001",
+      },
+    });
+
+    // Categories
     const categories = await Category.create([
       { name: "Electronics", slug: "electronics" },
       { name: "Clothing", slug: "clothing" },
       { name: "Accessories", slug: "accessories" },
     ]);
 
-    // Create sample products
+    // Products
     const products = await Product.create([
       {
         vendor: vendor._id,
@@ -60,14 +108,12 @@ const seedData = async () => {
         sku: "SKU-001",
         images: [
           "https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1591290621749-586861f28b6d?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1592286927505-1def25115558?w=400&h=400&fit=crop",
         stock: 25,
         status: "active",
         isActive: true,
-        isFeatured: true,
       },
       {
         vendor: vendor._id,
@@ -81,7 +127,6 @@ const seedData = async () => {
         sku: "SKU-002",
         images: [
           "https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=400&h=400&fit=crop",
@@ -101,7 +146,6 @@ const seedData = async () => {
         sku: "SKU-003",
         images: [
           "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
@@ -121,7 +165,6 @@ const seedData = async () => {
         sku: "SKU-004",
         images: [
           "https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=400&h=400&fit=crop",
@@ -141,7 +184,6 @@ const seedData = async () => {
         sku: "SKU-005",
         images: [
           "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1555821552-6f6c9adbd806?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
@@ -161,7 +203,6 @@ const seedData = async () => {
         sku: "SKU-006",
         images: [
           "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1505959915551-3e092f3a7bb1?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=400&fit=crop",
@@ -181,7 +222,6 @@ const seedData = async () => {
         sku: "SKU-007",
         images: [
           "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1526378800838-dd5abb3d24f9?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop",
@@ -201,31 +241,10 @@ const seedData = async () => {
         sku: "SKU-008",
         images: [
           "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1523439097956-48aba1c1e0f8?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
         stock: 45,
-        status: "active",
-        isActive: true,
-      },
-      {
-        vendor: vendor._id,
-        category: categories[0]._id,
-        name: "USB-C Cable",
-        slug: "usb-c-cable",
-        description: "High-quality USB-C charging cable",
-        shortDescription: "Essential accessory",
-        price: 599,
-        compareAtPrice: 799,
-        sku: "SKU-009",
-        images: [
-          "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
-        ],
-        thumbnail:
-          "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=400&h=400&fit=crop",
-        stock: 200,
         status: "active",
         isActive: true,
       },
@@ -238,10 +257,9 @@ const seedData = async () => {
         shortDescription: "Power bank",
         price: 1999,
         compareAtPrice: 2499,
-        sku: "SKU-010",
+        sku: "SKU-009",
         images: [
           "https://images.unsplash.com/photo-1590584473555-42072f3be51d?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
         ],
         thumbnail:
           "https://images.unsplash.com/photo-1590584473555-42072f3be51d?w=400&h=400&fit=crop",
@@ -258,9 +276,8 @@ const seedData = async () => {
         shortDescription: "Computer accessory",
         price: 1499,
         compareAtPrice: 1999,
-        sku: "SKU-011",
+        sku: "SKU-010",
         images: [
-          "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
           "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
         ],
         thumbnail:
@@ -269,37 +286,17 @@ const seedData = async () => {
         status: "active",
         isActive: true,
       },
-      {
-        vendor: vendor._id,
-        category: categories[0]._id,
-        name: "Mechanical Keyboard",
-        slug: "mechanical-keyboard",
-        description: "RGB mechanical keyboard for gaming and typing",
-        shortDescription: "Gaming keyboard",
-        price: 4999,
-        compareAtPrice: 6999,
-        sku: "SKU-012",
-        images: [
-          "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
-          "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
-        ],
-        thumbnail:
-          "https://images.unsplash.com/photo-1587829191301-26b3c3d8d0a2?w=400&h=400&fit=crop",
-        stock: 50,
-        status: "active",
-        isActive: true,
-      },
     ]);
 
-    console.log(`✅ Seeded database with:`);
-    console.log(`   - 1 User`);
-    console.log(`   - 1 Vendor`);
-    console.log(`   - 3 Categories`);
-    console.log(`   - ${products.length} Products`);
-
+    console.log(" Seeded database:");
+    console.log("   👤 Admin:    admin@dokan.com    / admin123");
+    console.log("   🏪 Vendor:   seller@dokan.com   / seller123");
+    console.log("   🛍️  Customer: customer@dokan.com / customer123");
+    console.log(`   📦 ${products.length} Products, 3 Categories`);
+    console.log("   ⏳ 1 pending vendor application (Fashion Hub)");
     process.exit(0);
   } catch (error) {
-    console.error("❌ Error seeding database:", error);
+    console.error(" Seed error:", error);
     process.exit(1);
   }
 };
