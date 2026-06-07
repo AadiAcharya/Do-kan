@@ -40,55 +40,35 @@ export const fetchCategories = async () => {
 };
 
 export const loginUser = async (email, password) => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    return res.json();
-  } catch (err) {
-    console.error("loginUser error:", err);
-    throw err;
-  }
+  const res = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  return res.json();
 };
 
 export const registerUser = async (payload) => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    return res.json();
-  } catch (err) {
-    console.error("registerUser error:", err);
-    throw err;
-  }
+  const res = await fetch(`${API_BASE_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
 };
 
 export const placeOrder = async (payload) => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/orders`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...authHeader() },
-      body: JSON.stringify(payload),
-    });
-    return res.json();
-  } catch (err) {
-    console.error("placeOrder error:", err);
-    throw err;
-  }
+  const res = await fetch(`${API_BASE_URL}/orders`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
 };
 
 export const fetchMyOrders = async () => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/orders`, { headers: authHeader() });
-    return res.json();
-  } catch (err) {
-    console.error("fetchMyOrders error:", err);
-    throw err;
-  }
+  const res = await fetch(`${API_BASE_URL}/orders`, { headers: authHeader() });
+  return res.json();
 };
 
 export const fetchVendorProducts = async (vendorId) => {
@@ -96,13 +76,10 @@ export const fetchVendorProducts = async (vendorId) => {
 };
 
 export const fetchVendorOrders = async () => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/orders/vendor`, { headers: authHeader() });
-    return res.json();
-  } catch (err) {
-    console.error("fetchVendorOrders error:", err);
-    throw err;
-  }
+  const res = await fetch(`${API_BASE_URL}/orders/vendor`, {
+    headers: authHeader(),
+  });
+  return res.json();
 };
 
 export const createProduct = async (payload) => {
@@ -127,6 +104,44 @@ export const deleteProduct = async (id) => {
   const res = await fetch(`${API_BASE_URL}/products/${id}`, {
     method: "DELETE",
     headers: authHeader(),
+  });
+  return res.json();
+};
+
+// ─── Payment ────────────────────────────────────────────────────────────────
+
+export const initiateEsewa = async (orderId) => {
+  const res = await fetch(`${API_BASE_URL}/payment/esewa/initiate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ orderId }),
+  });
+  return res.json();
+};
+
+export const verifyEsewa = async (encodedData, paymentId) => {
+  const res = await fetch(`${API_BASE_URL}/payment/esewa/verify`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ encodedData, paymentId }),
+  });
+  return res.json();
+};
+
+export const initiateKhalti = async (orderId) => {
+  const res = await fetch(`${API_BASE_URL}/payment/khalti/initiate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ orderId }),
+  });
+  return res.json();
+};
+
+export const verifyKhalti = async (pidx, paymentId) => {
+  const res = await fetch(`${API_BASE_URL}/payment/khalti/verify`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ pidx, paymentId }),
   });
   return res.json();
 };
