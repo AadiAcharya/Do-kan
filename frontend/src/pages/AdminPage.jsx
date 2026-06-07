@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import VendorApplicationReview from '../components/VendorApplicationReview';
+import ProductModeration from '../components/ProductModeration';
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('products');
@@ -28,7 +29,7 @@ const AdminPage = () => {
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Admin Panel</h1>
 
       {/* Tabs */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-6 flex-wrap">
         <button
           onClick={() => setActiveTab('products')}
           className={`px-6 py-2 rounded-lg font-semibold ${
@@ -38,6 +39,16 @@ const AdminPage = () => {
           }`}
         >
           Manage Products
+        </button>
+        <button
+          onClick={() => setActiveTab('moderation')}
+          className={`px-6 py-2 rounded-lg font-semibold ${
+            activeTab === 'moderation' 
+              ? 'bg-blue-600 text-white' 
+              : 'bg-white text-gray-700 border border-gray-300'
+          }`}
+        >
+          Product Moderation
         </button>
         <button
           onClick={() => setActiveTab('users')}
@@ -125,7 +136,7 @@ const AdminPage = () => {
                   <tr key={product.id} className="border hover:bg-gray-50">
                     <td className="border px-4 py-2">{product.id}</td>
                     <td className="border px-4 py-2">{product.name}</td>
-                    <td className="border px-4 py-2">${product.price}</td>
+                    <td className="border px-4 py-2">Rs.{product.price}</td>
                     <td className="border px-4 py-2">{product.category}</td>
                     <td className="border px-4 py-2">{product.stock}</td>
                     <td className="border px-4 py-2">
@@ -151,6 +162,14 @@ const AdminPage = () => {
           <div className="text-center text-gray-500 py-12">
             <p className="text-lg">User management features coming soon...</p>
           </div>
+        </div>
+      )}
+
+      {/* Product Moderation Tab */}
+      {activeTab === 'moderation' && (
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Product Moderation & Content Approval</h2>
+          <ProductModeration />
         </div>
       )}
 

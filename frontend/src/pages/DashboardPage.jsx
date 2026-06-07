@@ -44,7 +44,7 @@ const DashboardPage = () => {
         {/* Total Revenue Card */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-gray-500 text-sm font-semibold mb-2">Total Revenue</h2>
-          <p className="text-3xl font-bold text-orange-600">${stats.totalRevenue}</p>
+          <p className="text-3xl font-bold text-orange-600">Rs. {stats.totalRevenue}</p>
         </div>
       </div>
 
