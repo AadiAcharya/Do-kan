@@ -40,35 +40,55 @@ export const fetchCategories = async () => {
 };
 
 export const loginUser = async (email, password) => {
-  const res = await fetch(`${API_BASE_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    return res.json();
+  } catch (err) {
+    console.error("loginUser error:", err);
+    throw err;
+  }
 };
 
 export const registerUser = async (payload) => {
-  const res = await fetch(`${API_BASE_URL}/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return res.json();
+  } catch (err) {
+    console.error("registerUser error:", err);
+    throw err;
+  }
 };
 
 export const placeOrder = async (payload) => {
-  const res = await fetch(`${API_BASE_URL}/orders`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...authHeader() },
-    body: JSON.stringify(payload),
-  });
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE_URL}/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authHeader() },
+      body: JSON.stringify(payload),
+    });
+    return res.json();
+  } catch (err) {
+    console.error("placeOrder error:", err);
+    throw err;
+  }
 };
 
 export const fetchMyOrders = async () => {
-  const res = await fetch(`${API_BASE_URL}/orders`, { headers: authHeader() });
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE_URL}/orders`, { headers: authHeader() });
+    return res.json();
+  } catch (err) {
+    console.error("fetchMyOrders error:", err);
+    throw err;
+  }
 };
 
 export const fetchVendorProducts = async (vendorId) => {
@@ -76,8 +96,13 @@ export const fetchVendorProducts = async (vendorId) => {
 };
 
 export const fetchVendorOrders = async () => {
-  const res = await fetch(`${API_BASE_URL}/orders/vendor`, { headers: authHeader() });
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE_URL}/orders/vendor`, { headers: authHeader() });
+    return res.json();
+  } catch (err) {
+    console.error("fetchVendorOrders error:", err);
+    throw err;
+  }
 };
 
 export const createProduct = async (payload) => {
