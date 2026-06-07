@@ -63,39 +63,10 @@ const DashboardPage = () => {
         </div>
       </header>
 
-<<<<<<< HEAD
-        {/* Total Users Card */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-gray-500 text-sm font-semibold mb-2">Total Users</h2>
-          <p className="text-3xl font-bold text-green-600">{stats.totalUsers}</p>
-        </div>
-
-        {/* Total Orders Card */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-gray-500 text-sm font-semibold mb-2">Total Orders</h2>
-          <p className="text-3xl font-bold text-purple-600">{stats.totalOrders}</p>
-        </div>
-
-        {/* Total Revenue Card */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-gray-500 text-sm font-semibold mb-2">Total Revenue</h2>
-          <p className="text-3xl font-bold text-orange-600">Rs. {stats.totalRevenue}</p>
-        </div>
-      </div>
-
-      {/* Recent Activity Section */}
-      <div className="mt-8 bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Recent Activity</h2>
-        <div className="space-y-4">
-          <div className="border-l-4 border-blue-500 pl-4 py-2">
-            <p className="text-gray-700">New product added: iPhone 15</p>
-            <span className="text-gray-400 text-sm">2 hours ago</span>
-=======
       <div className="p-8">
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
             {error}
->>>>>>> f10bf1e45e98e9f6ab149e83ee85fad2752cdc36
           </div>
         )}
 

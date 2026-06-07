@@ -20,7 +20,10 @@ exports.getStats = async (req, res) => {
       Product.countDocuments({ isActive: true, status: "active" }),
       Order.countDocuments(),
       Vendor.countDocuments({ approvalStatus: "approved" }),
-      Order.aggregate([{ $group: { _id: null, total: { $sum: "$total" } } }]),
+      Order.aggregate([
+        { $match: { paymentStatus: "paid" } },
+        { $group: { _id: null, total: { $sum: "$total" } } },
+      ]),
       Vendor.countDocuments({ approvalStatus: "pending" }),
     ]);
 

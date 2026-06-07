@@ -76,7 +76,9 @@ export const fetchVendorProducts = async (vendorId) => {
 };
 
 export const fetchVendorOrders = async () => {
-  const res = await fetch(`${API_BASE_URL}/orders/vendor`, { headers: authHeader() });
+  const res = await fetch(`${API_BASE_URL}/orders/vendor`, {
+    headers: authHeader(),
+  });
   return res.json();
 };
 
@@ -102,6 +104,44 @@ export const deleteProduct = async (id) => {
   const res = await fetch(`${API_BASE_URL}/products/${id}`, {
     method: "DELETE",
     headers: authHeader(),
+  });
+  return res.json();
+};
+
+// ─── Payment ────────────────────────────────────────────────────────────────
+
+export const initiateEsewa = async (orderId) => {
+  const res = await fetch(`${API_BASE_URL}/payment/esewa/initiate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ orderId }),
+  });
+  return res.json();
+};
+
+export const verifyEsewa = async (encodedData, paymentId) => {
+  const res = await fetch(`${API_BASE_URL}/payment/esewa/verify`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ encodedData, paymentId }),
+  });
+  return res.json();
+};
+
+export const initiateKhalti = async (orderId) => {
+  const res = await fetch(`${API_BASE_URL}/payment/khalti/initiate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ orderId }),
+  });
+  return res.json();
+};
+
+export const verifyKhalti = async (pidx, paymentId) => {
+  const res = await fetch(`${API_BASE_URL}/payment/khalti/verify`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ pidx, paymentId }),
   });
   return res.json();
 };
