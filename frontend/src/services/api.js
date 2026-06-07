@@ -83,7 +83,9 @@ export const placeOrder = async (payload) => {
 
 export const fetchMyOrders = async () => {
   try {
-    const res = await fetch(`${API_BASE_URL}/orders`, { headers: authHeader() });
+    const res = await fetch(`${API_BASE_URL}/orders`, {
+      headers: authHeader(),
+    });
     return res.json();
   } catch (err) {
     console.error("fetchMyOrders error:", err);
@@ -97,7 +99,9 @@ export const fetchVendorProducts = async (vendorId) => {
 
 export const fetchVendorOrders = async () => {
   try {
-    const res = await fetch(`${API_BASE_URL}/orders/vendor`, { headers: authHeader() });
+    const res = await fetch(`${API_BASE_URL}/orders/vendor`, {
+      headers: authHeader(),
+    });
     return res.json();
   } catch (err) {
     console.error("fetchVendorOrders error:", err);
