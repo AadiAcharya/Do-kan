@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pasal Blog Page</title>
+
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins', sans-serif;
+    }
+
+    body{
+      background:#111;
+      color:#fff;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    .navbar{
+      width:100%;
+      background:#000;
+      padding:18px 7%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+
+    .logo{
+      color:#ff6b6b;
+      font-size:26px;
+      font-weight:700;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:35px;
+    }
+
+    .nav-links a{
+      color:#ddd;
+      font-size:14px;
+      transition:0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links .active{
+      color:#ff6b6b;
+    }
+
+    .search-box{
+      background:#1f1f1f;
+      padding:10px 15px;
+      border-radius:8px;
+    }
+
+    .search-box input{
+      background:transparent;
+      border:none;
+      outline:none;
+      color:white;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero{
+      width:100%;
+      background:#050505;
+      padding:80px 7%;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:'';
+      width:280px;
+      height:280px;
+      background:#ff6b6b22;
+      position:absolute;
+      right:-60px;
+      top:20px;
+      border-radius:50%;
+    }
+
+    .breadcrumb{
+      color:#999;
+      margin-bottom:20px;
+      font-size:14px;
+    }
+
+    .hero h1{
+      font-size:54px;
+      margin-bottom:15px;
+    }
+
+    .hero p{
+      color:#bbb;
+      max-width:600px;
+      line-height:1.8;
+    }
+
+    /* ================= MAIN BLOG ================= */
+
+    .blog-wrapper{
+      width:90%;
+      margin:auto;
+      background:#fff;
+      color:#111;
+      margin-top:-30px;
+      border-radius:10px;
+      padding:40px;
+    }
+
+    /* FEATURED BLOG */
+
+    .featured-blog{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:30px;
+      margin-bottom:50px;
+      align-items:center;
+      background:#fafafa;
+      border:1px solid #eee;
+      border-radius:12px;
+      padding:25px;
+    }
+
+    .featured-image{
+      background:#ddd;
+      height:280px;
+      border-radius:10px;
+    }
+
+    .tag{
+      display:inline-block;
+      background:#ff6b6b;
+      color:white;
+      padding:6px 12px;
+      border-radius:5px;
+      font-size:12px;
+      margin-bottom:15px;
+    }
+
+    .featured-content h2{
+      font-size:34px;
+      margin-bottom:15px;
+    }
+
+    .meta{
+      color:#888;
+      font-size:13px;
+      margin-bottom:15px;
+    }
+
+    .featured-content p{
+      color:#666;
+      line-height:1.8;
+      margin-bottom:20px;
+    }
+
+    .btn{
+      display:inline-block;
+      background:#ff6b6b;
+      color:white;
+      padding:12px 24px;
+      border-radius:8px;
+      transition:0.3s;
+    }
+
+    .btn:hover{
+      background:#e85b5b;
+    }
+
+    /* ================= BLOG GRID ================= */
+
+    .section-title{
+      font-size:30px;
+      margin-bottom:30px;
+    }
+
+    .blog-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:25px;
+    }
+
+    .blog-card{
+      border:1px solid #eee;
+      border-radius:12px;
+      overflow:hidden;
+      transition:0.3s;
+      background:#fff;
+    }
+
+    .blog-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .blog-img{
+      width:100%;
+      height:200px;
+      background:#ddd;
+    }
+
+    .blog-content{
+      padding:20px;
+    }
+
+    .blog-content h3{
+      font-size:20px;
+      margin:15px 0;
+    }
+
+    .blog-content p{
+      color:#666;
+      line-height:1.7;
+      margin-bottom:15px;
+    }
+
+    .read-more{
+      color:#ff6b6b;
+      font-weight:600;
+      font-size:14px;
+    }
+
+    /* ================= CATEGORY ================= */
+
+    .categories{
+      margin-top:50px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:15px;
+    }
+
+    .categories button{
+      padding:10px 18px;
+      border:none;
+      background:#f3f3f3;
+      border-radius:30px;
+      cursor:pointer;
+      transition:0.3s;
+      font-weight:500;
+    }
+
+    .categories button:hover,
+    .categories .active{
+      background:#ff6b6b;
+      color:white;
+    }
+
+    /* ================= NEWSLETTER ================= */
+
+    .newsletter{
+      margin-top:60px;
+      background:#000;
+      color:white;
+      padding:60px 30px;
+      text-align:center;
+      border-radius:10px;
+    }
+
+    .newsletter h2{
+      font-size:36px;
+      margin-bottom:15px;
+    }
+
+    .newsletter p{
+      color:#bbb;
+      margin-bottom:25px;
+    }
+
+    .newsletter-box{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .newsletter-box input{
+      width:320px;
+      padding:14px;
+      border:none;
+      border-radius:8px;
+      outline:none;
+    }
+
+    .newsletter-box button{
+      padding:14px 24px;
+      border:none;
+      background:#ff6b6b;
+      color:white;
+      border-radius:8px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .newsletter-box button:hover{
+      background:#e85b5b;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer{
+      background:#050505;
+      padding:40px 7%;
+      margin-top:50px;
+    }
+
+    .footer-container{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:40px;
+    }
+
+    .footer-box h3{
+      margin-bottom:20px;
+      color:#ff6b6b;
+    }
+
+    .footer-box a,
+    .footer-box p{
+      display:block;
+      color:#bbb;
+      margin-bottom:10px;
+      font-size:14px;
+    }
+
+    .social-icons{
+      display:flex;
+      gap:15px;
+      margin-top:15px;
+    }
+
+    .social-icons i{
+      width:40px;
+      height:40px;
+      background:#1f1f1f;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      transition:0.3s;
+      cursor:pointer;
+    }
+
+    .social-icons i:hover{
+      background:#ff6b6b;
+    }
+
+    .footer-bottom{
+      text-align:center;
+      margin-top:40px;
+      color:#888;
+      font-size:14px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media(max-width:900px){
+
+      .featured-blog{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:40px;
+      }
+
+    }
+
+    @media(max-width:768px){
+
+      .navbar{
+        flex-direction:column;
+        gap:20px;
+      }
+
+      .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .blog-wrapper{
+        width:95%;
+        padding:20px;
+      }
+
+      .newsletter h2{
+        font-size:28px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+
+  <nav class="navbar">
+
+    <div class="logo">Pasal</div>
+
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#" class="active">Blog</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <div class="search-box">
+      <input type="text" placeholder="Search...">
+    </div>
+
+  </nav>
+
+  <!-- ================= HERO ================= -->
+
+  <section class="hero">
+
+    <div class="breadcrumb">
+      Home / Blog
+    </div>
+
+    <h1>Our Blog</h1>
+
+    <p>
+      Explore tips, trends and ideas from the world of fashion,
+      lifestyle, shopping and modern accessories.
+    </p>
+
+  </section>
+
+  <!-- ================= BLOG WRAPPER ================= -->
+
+  <section class="blog-wrapper">
+
+    <!-- FEATURED BLOG -->
+
+    <div class="featured-blog">
+
+      <div class="featured-image"></div>
+
+      <div class="featured-content">
+
+        <span class="tag">Featured</span>
+
+        <h2>
+          10 Must-Have Fashion Pieces
+          for This Season
+        </h2>
+
+        <div class="meta">
+          By Admin • May 31, 2026 • 5 Min Read
+        </div>
+
+        <p>
+          Discover the latest fashion essentials that will elevate
+          your style this season. From trendy jackets to versatile shoes,
+          we've curated the ultimate guide for modern fashion lovers.
+        </p>
+
+        <a href="#" class="btn">Read More</a>
+
+      </div>
+
+    </div>
+
+    <!-- LATEST ARTICLES -->
+
+    <h2 class="section-title">Latest Articles</h2>
+
+    <div class="blog-grid">
+
+      <!-- CARD -->
+
+      <div class="blog-card">
+
+        <div class="blog-img"></div>
+
+        <div class="blog-content">
+
+          <span class="tag">Fashion</span>
+
+          <h3>How to Build a Capsule Wardrobe</h3>
+
+          <p>
+            Learn how to create a stylish and minimal wardrobe
+            with timeless fashion pieces.
+          </p>
+
+          <a href="#" class="read-more">
+            Read Article →
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="blog-card">
+
+        <div class="blog-img"></div>
+
+        <div class="blog-content">
+
+          <span class="tag">Shopping</span>
+
+          <h3>Shopping Smarter Save Without Stress</h3>
+
+          <p>
+            Smart shopping techniques that help you save money
+            while buying quality products.
+          </p>
+
+          <a href="#" class="read-more">
+            Read Article →
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="blog-card">
+
+        <div class="blog-img"></div>
+
+        <div class="blog-content">
+
+          <span class="tag">Trends</span>
+
+          <h3>Spring 2026 Color Palettes to Watch</h3>
+
+          <p>
+            Explore the most popular color combinations and trends
+            for modern outfits.
+          </p>
+
+          <a href="#" class="read-more">
+            Read Article →
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="blog-card">
+
+        <div class="blog-img"></div>
+
+        <div class="blog-content">
+
+          <span class="tag">Sustainability</span>
+
+          <h3>Sustainable Style Eco-Friendly Brands</h3>
+
+          <p>
+            Fashion brands are moving towards sustainability
+            and eco-friendly materials.
+          </p>
+
+          <a href="#" class="read-more">
+            Read Article →
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="blog-card">
+
+        <div class="blog-img"></div>
+
+        <div class="blog-content">
+
+          <span class="tag">Sneakers</span>
+
+          <h3>The Ultimate Sneaker Buying Guide</h3>
+
+          <p>
+            A complete guide for choosing stylish and comfortable
+            sneakers for daily wear.
+          </p>
+
+          <a href="#" class="read-more">
+            Read Article →
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- CARD -->
+
+      <div class="blog-card">
+
+        <div class="blog-img"></div>
+
+        <div class="blog-content">
+
+          <span class="tag">Accessories</span>
+
+          <h3>Accessories Like A Pro 2026 Edition</h3>
+
+          <p>
+            Discover watches, bags and jewelry styling tips
+            to improve your fashion look.
+          </p>
+
+          <a href="#" class="read-more">
+            Read Article →
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CATEGORIES -->
+
+    <div class="categories">
+
+      <button>Street Style</button>
+      <button class="active">All</button>
+      <button>Fashion</button>
+      <button>Lifestyle</button>
+      <button>Top 10 Picks</button>
+      <button>Trends</button>
+      <button>Guides</button>
+
+    </div>
+
+    <!-- NEWSLETTER -->
+
+    <div class="newsletter">
+
+      <h2>Stay in the Loop</h2>
+
+      <p>
+        Subscribe to get the latest blog posts,
+        new deals and exclusive content from Pasal.
+      </p>
+
+      <div class="newsletter-box">
+
+        <input type="email" placeholder="Enter your email">
+
+        <button onclick="subscribeNow()">
+          Subscribe
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    <div class="footer-container">
+
+      <div class="footer-box">
+
+        <h3>Pasal</h3>
+
+        <p>
+          Your favorite destination for fashion & lifestyle.
+        </p>
+
+        <div class="social-icons">
+          <i class="fa-brands fa-facebook-f"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-twitter"></i>
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+
+      </div>
+
+      <div class="footer-box">
+
+        <h3>Quick Links</h3>
+
+        <a href="#">Shop</a>
+        <a href="#">Blog</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+
+      </div>
+
+      <div class="footer-box">
+
+        <h3>Support</h3>
+
+        <a href="#">Help Center</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy Policy</a>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Pasal. All Rights Reserved.
+    </div>
+
+  </footer>
+
+  <!-- ================= JAVASCRIPT ================= -->
+
+  <script>
+
+    function subscribeNow(){
+
+      let email =
+      document.querySelector(".newsletter-box input").value;
+
+      if(email === ""){
+
+        alert("Please enter your email");
+
+      }
+      else{
+
+        alert("Thank you for subscribing!");
+
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
