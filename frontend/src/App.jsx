@@ -15,8 +15,9 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import VendorDashboardPage from "./pages/VendorDashboardPage";
+import EsewaCallbackPage from "./pages/EsewaCallbackPage";
+import KhaltiCallbackPage from "./pages/KhaltiCallbackPage";
 
-// Redirect to login if not authenticated
 const PrivateRoute = ({ children, roles }) => {
   const { isLoggedIn, user, loading } = useAuth();
   if (loading)
@@ -78,6 +79,16 @@ function App() {
             </PrivateRoute>
           }
         />
+        {/* Payment callbacks — public so gateway can redirect without auth headers */}
+        <Route
+          path="/payment/esewa/success"
+          element={<EsewaCallbackPage type="success" />}
+        />
+        <Route
+          path="/payment/esewa/failure"
+          element={<EsewaCallbackPage type="failure" />}
+        />
+        <Route path="/payment/khalti/verify" element={<KhaltiCallbackPage />} />
       </Routes>
     </Router>
   );
