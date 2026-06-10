@@ -17,19 +17,19 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4">About Us</h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#" className="hover:text-primary-500">
+                <button className="hover:text-primary-500 text-left">
                   Privacy Policy
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="hover:text-primary-500">
+                <button className="hover:text-primary-500 text-left">
                   Terms & Conditions
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="hover:text-primary-500">
+                <button className="hover:text-primary-500 text-left">
                   Return Policy
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -38,14 +38,14 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#" className="hover:text-primary-500">
+                <button className="hover:text-primary-500 text-left">
                   Privacy Policy
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="hover:text-primary-500">
+                <button className="hover:text-primary-500 text-left">
                   Terms & Conditions
-                </a>
+                </button>
               </li>
             </ul>
 
