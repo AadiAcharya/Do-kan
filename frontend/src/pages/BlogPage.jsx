@@ -22,7 +22,8 @@ export default function BlogPage() {
       category: "Fashion",
       description:
         "Learn how to create a stylish and minimal wardrobe with timeless fashion pieces.",
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
     },
     {
       id: 2,
@@ -30,7 +31,8 @@ export default function BlogPage() {
       category: "Shopping",
       description:
         "Smart shopping techniques that help you save money while buying quality products.",
-      image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=500&h=300&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=500&h=300&fit=crop",
     },
     {
       id: 3,
@@ -38,7 +40,8 @@ export default function BlogPage() {
       category: "Trends",
       description:
         "Explore the most popular color combinations and trends for modern outfits.",
-      image: "https://images.unsplash.com/photo-1517816131977-84ee28caeb82?w=500&h=300&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1517816131977-84ee28caeb82?w=500&h=300&fit=crop",
     },
     {
       id: 4,
@@ -46,7 +49,8 @@ export default function BlogPage() {
       category: "Sustainability",
       description:
         "Fashion brands are moving towards sustainability and eco-friendly materials.",
-      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&h=300&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500&h=300&fit=crop",
     },
     {
       id: 5,
@@ -54,7 +58,8 @@ export default function BlogPage() {
       category: "Sneakers",
       description:
         "A complete guide for choosing stylish and comfortable sneakers for daily wear.",
-      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=300&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=300&fit=crop",
     },
     {
       id: 6,
@@ -62,7 +67,8 @@ export default function BlogPage() {
       category: "Accessories",
       description:
         "Discover watches, bags and jewelry styling tips to improve your fashion look.",
-      image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&h=300&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&h=300&fit=crop",
     },
   ];
 
@@ -135,9 +141,9 @@ export default function BlogPage() {
       <section className="max-w-7xl mx-auto px-4 py-16">
         {/* FEATURED ARTICLE */}
         <div className="grid md:grid-cols-2 gap-8 mb-16 bg-gray-100 rounded-lg p-8 items-center">
-          <img 
-            src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600&h=400&fit=crop" 
-            alt="Fashion pieces" 
+          <img
+            src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=600&h=400&fit=crop"
+            alt="Fashion pieces"
             className="h-64 w-full object-cover rounded-lg"
           />
           <div>
@@ -173,9 +179,9 @@ export default function BlogPage() {
               key={article.id}
               className="bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg hover:-translate-y-2 transition"
             >
-              <img 
-                src={article.image} 
-                alt={article.title} 
+              <img
+                src={article.image}
+                alt={article.title}
                 className="h-48 w-full object-cover"
               />
               <div className="p-6">
