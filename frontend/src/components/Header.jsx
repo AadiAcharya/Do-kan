@@ -16,7 +16,7 @@ const Header = () => {
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-3xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate("/")}>Do-Kan</h1>
           <div className="flex items-center gap-5">
-            <span className="text-sm text-gray-500 hidden sm:block">Help & Support</span>
+           
             <button onClick={() => navigate("/cart")} className="relative text-sm font-medium hover:text-blue-600">
               🛒 Cart
               {itemCount > 0 && (

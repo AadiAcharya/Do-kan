@@ -9,6 +9,7 @@ import { useAuth } from "./context/AuthContext";
 import HomePage from "./pages/HomePage";
 import BlogPage from "./pages/BlogPage";
 import LoginPage from "./pages/LoginPage";
+import HelpSupport from "./components/HelpSupport";
 import DashboardPage from "./pages/DashboardPage";
 import AdminPage from "./pages/AdminPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
@@ -38,6 +39,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/help" element={<HelpSupport/>} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route
           path="/cart"
