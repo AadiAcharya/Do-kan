@@ -18,6 +18,8 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import VendorDashboardPage from "./pages/VendorDashboardPage";
 import EsewaCallbackPage from "./pages/EsewaCallbackPage";
 import KhaltiCallbackPage from "./pages/KhaltiCallbackPage";
+import MyOrdersPage from "./pages/MyOrdersPage";
+import OrderDetailPage from "./pages/OrderDetailPage";
 
 const PrivateRoute = ({ children, roles }) => {
   const { isLoggedIn, user, loading } = useAuth();
@@ -39,9 +41,10 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/help" element={<HelpSupport/>} />
+        <Route path="/help" element={<HelpSupport />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
+
+        {/* Protected customer routes */}
         <Route
           path="/cart"
           element={
@@ -59,6 +62,24 @@ function App() {
           }
         />
         <Route
+          path="/orders"
+          element={
+            <PrivateRoute>
+              <MyOrdersPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/orders/:id"
+          element={
+            <PrivateRoute>
+              <OrderDetailPage />
+            </PrivateRoute>
+          }
+        />
+
+        {/* Vendor routes */}
+        <Route
           path="/vendor/dashboard"
           element={
             <PrivateRoute roles={["vendor"]}>
@@ -66,6 +87,8 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        {/* Admin routes */}
         <Route
           path="/dashboard"
           element={
@@ -82,7 +105,8 @@ function App() {
             </PrivateRoute>
           }
         />
-        {/* Payment callbacks — public so gateway can redirect without auth headers */}
+
+        {/* Payment callbacks — public so gateway can redirect */}
         <Route
           path="/payment/esewa/success"
           element={<EsewaCallbackPage type="success" />}

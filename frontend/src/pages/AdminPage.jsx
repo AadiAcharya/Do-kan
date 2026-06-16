@@ -2,8 +2,18 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import VendorApplicationReview from "../components/VendorApplicationReview";
+import { adminUpdateOrderStatus, adminMarkCODPaid } from "../services/api";
 
 const API = "http://localhost:3001/api";
+
+const ORDER_STATUSES = [
+  "pending",
+  "confirmed",
+  "processing",
+  "shipped",
+  "delivered",
+  "cancelled",
+];
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -20,6 +30,7 @@ const AdminPage = () => {
 
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
+  const [orderStatusUpdating, setOrderStatusUpdating] = useState(null);
 
   const [actionMsg, setActionMsg] = useState("");
 
@@ -112,6 +123,58 @@ const AdminPage = () => {
     }
   };
 
+  const handleUpdateOrderStatus = async (orderId, newStatus) => {
+    setOrderStatusUpdating(orderId);
+    try {
+      const data = await adminUpdateOrderStatus(orderId, newStatus);
+      if (data.success) {
+        showMsg(`Order status updated to "${newStatus}".`);
+        setOrders((prev) =>
+          prev.map((o) =>
+            o._id === orderId
+              ? {
+                  ...o,
+                  status: newStatus,
+                  paymentStatus:
+                    newStatus === "delivered" &&
+                    o.paymentMethod === "cash_on_delivery"
+                      ? "paid"
+                      : o.paymentStatus,
+                }
+              : o,
+          ),
+        );
+      } else {
+        showMsg(data.message || "Failed to update status.");
+      }
+    } catch {
+      showMsg("Server error.");
+    } finally {
+      setOrderStatusUpdating(null);
+    }
+  };
+
+  const handleMarkCODPaid = async (orderId) => {
+    setOrderStatusUpdating(orderId);
+    try {
+      const data = await adminMarkCODPaid(orderId);
+      if (data.success) {
+        showMsg("Order marked as paid.");
+        setOrders((prev) =>
+          prev.map((o) =>
+            o._id === orderId ? { ...o, paymentStatus: "paid" } : o,
+          ),
+        );
+      } else {
+        showMsg(data.message || "Failed.");
+      }
+    } catch {
+      showMsg("Server error.");
+    } finally {
+      setOrderStatusUpdating(null);
+    }
+  };
+
   const tabs = [
     { key: "vendors", label: "Vendor Applications" },
     { key: "users", label: "Users" },
@@ -155,11 +218,7 @@ const AdminPage = () => {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition ${
-                activeTab === tab.key
-                  ? "bg-blue-600 text-white shadow"
-                  : "text-gray-500 hover:text-gray-800"
-              }`}
+              className={`px-5 py-2 rounded-lg text-sm font-semibold transition ${activeTab === tab.key ? "bg-blue-600 text-white shadow" : "text-gray-500 hover:text-gray-800"}`}
             >
               {tab.label}
             </button>
@@ -208,7 +267,6 @@ const AdminPage = () => {
                 </button>
               </div>
             </div>
-
             {usersLoading ? (
               <p className="text-gray-400 text-sm text-center py-8">
                 Loading users...
@@ -235,24 +293,14 @@ const AdminPage = () => {
                         <td className="py-3 pr-4 text-gray-500">{u.email}</td>
                         <td className="py-3 pr-4">
                           <span
-                            className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                              u.role === "admin"
-                                ? "bg-red-100 text-red-700"
-                                : u.role === "vendor"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : "bg-gray-100 text-gray-600"
-                            }`}
+                            className={`text-xs px-2 py-0.5 rounded-full font-semibold ${u.role === "admin" ? "bg-red-100 text-red-700" : u.role === "vendor" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"}`}
                           >
                             {u.role}
                           </span>
                         </td>
                         <td className="py-3 pr-4">
                           <span
-                            className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                              u.isBanned
-                                ? "bg-red-100 text-red-700"
-                                : "bg-green-100 text-green-700"
-                            }`}
+                            className={`text-xs px-2 py-0.5 rounded-full font-semibold ${u.isBanned ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}
                           >
                             {u.isBanned ? "Banned" : "Active"}
                           </span>
@@ -352,11 +400,7 @@ const AdminPage = () => {
                         </td>
                         <td className="py-3 pr-4">
                           <span
-                            className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                              p.status === "active"
-                                ? "bg-green-100 text-green-700"
-                                : "bg-gray-100 text-gray-500"
-                            }`}
+                            className={`text-xs px-2 py-0.5 rounded-full font-semibold ${p.status === "active" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}
                           >
                             {p.status}
                           </span>
@@ -388,7 +432,6 @@ const AdminPage = () => {
           </div>
         )}
 
-
         {/* Orders Tab */}
         {activeTab === "orders" && (
           <div className="bg-white rounded-xl shadow-sm p-6">
@@ -406,8 +449,10 @@ const AdminPage = () => {
                       <th className="py-3 pr-4">Customer</th>
                       <th className="py-3 pr-4">Total</th>
                       <th className="py-3 pr-4">Payment</th>
-                      <th className="py-3 pr-4">Status</th>
-                      <th className="py-3">Date</th>
+                      <th className="py-3 pr-4">Pay Status</th>
+                      <th className="py-3 pr-4">Order Status</th>
+                      <th className="py-3 pr-4">Date</th>
+                      <th className="py-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
@@ -427,35 +472,65 @@ const AdminPage = () => {
                         <td className="py-3 pr-4 font-semibold text-gray-900">
                           Rs. {o.total?.toLocaleString()}
                         </td>
-                        <td className="py-3 pr-4 text-gray-500 capitalize">
+                        <td className="py-3 pr-4 text-gray-500 capitalize text-xs">
                           {o.paymentMethod?.replace(/_/g, " ")}
                         </td>
                         <td className="py-3 pr-4">
                           <span
                             className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                              o.status === "delivered"
+                              o.paymentStatus === "paid"
                                 ? "bg-green-100 text-green-700"
-                                : o.status === "shipped"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : o.status === "processing"
-                                    ? "bg-purple-100 text-purple-700"
-                                    : o.status === "cancelled"
-                                      ? "bg-red-100 text-red-700"
-                                      : "bg-yellow-100 text-yellow-700"
+                                : o.paymentStatus === "failed"
+                                  ? "bg-red-100 text-red-700"
+                                  : "bg-yellow-100 text-yellow-700"
                             }`}
                           >
-                            {o.status}
+                            {o.paymentStatus}
                           </span>
                         </td>
-                        <td className="py-3 text-xs text-gray-400">
+                        <td className="py-3 pr-4">
+                          {/* Status dropdown */}
+                          <select
+                            value={o.status}
+                            disabled={
+                              orderStatusUpdating === o._id ||
+                              o.status === "cancelled"
+                            }
+                            onChange={(e) =>
+                              handleUpdateOrderStatus(o._id, e.target.value)
+                            }
+                            className="text-xs border border-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:border-blue-400 disabled:opacity-50 bg-white"
+                          >
+                            {ORDER_STATUSES.map((s) => (
+                              <option key={s} value={s}>
+                                {s.charAt(0).toUpperCase() + s.slice(1)}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="py-3 pr-4 text-xs text-gray-400">
                           {new Date(o.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="py-3">
+                          {/* Mark COD as paid */}
+                          {o.paymentMethod === "cash_on_delivery" &&
+                            o.paymentStatus !== "paid" &&
+                            o.status !== "cancelled" && (
+                              <button
+                                onClick={() => handleMarkCODPaid(o._id)}
+                                disabled={orderStatusUpdating === o._id}
+                                className="text-xs text-green-600 hover:underline font-medium disabled:opacity-50 whitespace-nowrap"
+                              >
+                                Mark Paid
+                              </button>
+                            )}
                         </td>
                       </tr>
                     ))}
                     {orders.length === 0 && (
                       <tr>
                         <td
-                          colSpan={6}
+                          colSpan={8}
                           className="py-8 text-center text-gray-400"
                         >
                           No orders found.

@@ -19,12 +19,12 @@ const cartItemSchema = new mongoose.Schema({
     material: String,
   },
   quantity: { type: Number, required: true, min: 1, default: 1 },
-  price: { type: Number, required: true }, // price at time of adding
+  price: { type: Number, required: true },
   addedAt: { type: Date, default: Date.now },
 });
 
-// Enforce unique constraint: one product per cart
-cartItemSchema.index({ cart: 1, product: 1 }, { unique: true });
+// NOTE: Removed the bad index { cart: 1, product: 1 } — 'cart' does not
+// exist on cart items. Uniqueness per product is enforced in the controller.
 
 const cartSchema = new mongoose.Schema(
   {
@@ -37,16 +37,14 @@ const cartSchema = new mongoose.Schema(
     items: [cartItemSchema],
     couponCode: String,
     couponDiscount: { type: Number, default: 0 },
-    // TTL: cart auto-expires if abandoned (optional)
     expiresAt: {
       type: Date,
       default: () => new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    }, // 30 days
+    },
   },
   { timestamps: true },
 );
 
-// Virtual: total price
 cartSchema.virtual("total").get(function () {
   return this.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 });

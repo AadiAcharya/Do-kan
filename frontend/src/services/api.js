@@ -78,6 +78,61 @@ export const fetchMyOrders = async () => {
   }
 };
 
+export const fetchOrderById = async (id) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/orders/${id}`, {
+      headers: authHeader(),
+    });
+    return res.json();
+  } catch (err) {
+    console.error("fetchOrderById error:", err);
+    throw err;
+  }
+};
+
+export const cancelFailedOrder = async (orderId) => {
+  const res = await fetch(`${API_BASE_URL}/orders/${orderId}/cancel-failed`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+  });
+  return res.json();
+};
+
+export const updateOrderStatus = async (orderId, status, note = "") => {
+  const res = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ status, note }),
+  });
+  return res.json();
+};
+
+export const markCODPaid = async (orderId) => {
+  const res = await fetch(`${API_BASE_URL}/orders/${orderId}/mark-paid`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+  });
+  return res.json();
+};
+
+// Admin order management
+export const adminUpdateOrderStatus = async (orderId, status, note = "") => {
+  const res = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/status`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify({ status, note }),
+  });
+  return res.json();
+};
+
+export const adminMarkCODPaid = async (orderId) => {
+  const res = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/mark-paid`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+  });
+  return res.json();
+};
+
 export const fetchVendorProducts = async (vendorId) => {
   return fetchProducts({ vendorId });
 };

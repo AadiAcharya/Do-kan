@@ -2,16 +2,15 @@ const Order = require("../models/Order");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 
+// ─── CREATE ORDER ─────────────────────────────────────────────────────────────
 exports.createOrder = async (req, res) => {
   try {
     const { shippingAddress, paymentMethod } = req.body;
     if (!shippingAddress || !paymentMethod) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "shippingAddress and paymentMethod are required.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "shippingAddress and paymentMethod are required.",
+      });
     }
 
     const cart = await Cart.findOne({ user: req.user._id }).populate(
@@ -31,20 +30,16 @@ exports.createOrder = async (req, res) => {
         !item.product.isActive ||
         item.product.status !== "active"
       ) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message: "A product in your cart is no longer available.",
-          });
+        return res.status(400).json({
+          success: false,
+          message: "A product in your cart is no longer available.",
+        });
       }
       if (item.product.stock < item.quantity) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message: `Only ${item.product.stock} units of "${item.product.name}" are available.`,
-          });
+        return res.status(400).json({
+          success: false,
+          message: `Only ${item.product.stock} units of "${item.product.name}" are available.`,
+        });
       }
     }
 
@@ -63,7 +58,6 @@ exports.createOrder = async (req, res) => {
     const shippingCharge = 99;
     const total = subtotal + shippingCharge;
 
-    // Generate orderNumber directly in controller
     const count = await Order.countDocuments();
     const orderNumber = `DOK-${new Date().getFullYear()}${String(count + 1).padStart(5, "0")}`;
 
@@ -91,25 +85,22 @@ exports.createOrder = async (req, res) => {
     cart.items = [];
     await cart.save();
 
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Order placed successfully.",
-        data: order,
-      });
+    res.status(201).json({
+      success: true,
+      message: "Order placed successfully.",
+      data: order,
+    });
   } catch (err) {
     console.error("Create order error:", err);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error placing order.",
-        error: err.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error placing order.",
+      error: err.message,
+    });
   }
 };
 
+// ─── GET MY ORDERS (customer) ─────────────────────────────────────────────────
 exports.getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ customer: req.user._id })
@@ -121,6 +112,7 @@ exports.getMyOrders = async (req, res) => {
   }
 };
 
+// ─── GET SINGLE ORDER ─────────────────────────────────────────────────────────
 exports.getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
@@ -144,12 +136,13 @@ exports.getOrderById = async (req, res) => {
   }
 };
 
+// ─── GET VENDOR ORDERS ────────────────────────────────────────────────────────
 exports.getVendorOrders = async (req, res) => {
   try {
     const vendor = req.vendor;
     const orders = await Order.find({ "items.vendor": vendor._id })
       .select(
-        "orderNumber createdAt status total items shippingAddress paymentMethod",
+        "orderNumber createdAt status total items shippingAddress paymentMethod paymentStatus",
       )
       .sort({ createdAt: -1 });
 
@@ -165,5 +158,214 @@ exports.getVendorOrders = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Error fetching vendor orders." });
+  }
+};
+
+// ─── UPDATE ORDER STATUS (admin + vendor) ─────────────────────────────────────
+// PUT /api/orders/:id/status
+// Body: { status, note }
+// Valid transitions: pending → processing → shipped → delivered → cancelled
+exports.updateOrderStatus = async (req, res) => {
+  try {
+    const { status, note } = req.body;
+
+    const validStatuses = [
+      "pending",
+      "confirmed",
+      "processing",
+      "shipped",
+      "delivered",
+      "cancelled",
+    ];
+    if (!status || !validStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
+      });
+    }
+
+    const order = await Order.findById(req.params.id);
+    if (!order)
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found." });
+
+    // Vendors can only update orders containing their items
+    if (req.user.role === "vendor") {
+      const isVendorOrder = order.items.some(
+        (i) => i.vendor.toString() === req.vendor._id.toString(),
+      );
+      if (!isVendorOrder) {
+        return res.status(403).json({
+          success: false,
+          message: "Not authorised to update this order.",
+        });
+      }
+    }
+
+    const prevStatus = order.status;
+    order.status = status;
+
+    // Auto-set timestamps
+    if (status === "delivered") {
+      order.items.forEach((item) => {
+        item.status = "delivered";
+        item.deliveredAt = new Date();
+      });
+      // For COD — mark as paid when delivered
+      if (
+        order.paymentMethod === "cash_on_delivery" &&
+        order.paymentStatus !== "paid"
+      ) {
+        order.paymentStatus = "paid";
+        order.paidAt = new Date();
+      }
+    }
+
+    if (status === "shipped") {
+      order.items.forEach((item) => {
+        item.status = "shipped";
+        item.shippedAt = new Date();
+      });
+    }
+
+    if (status === "cancelled") {
+      order.cancelledAt = new Date();
+      order.cancelledBy = req.user._id;
+      // Restore stock
+      for (const item of order.items) {
+        await Product.findByIdAndUpdate(item.product, {
+          $inc: { stock: item.quantity },
+        });
+      }
+    }
+
+    order.statusHistory.push({
+      status,
+      note: note || `Status changed from ${prevStatus} to ${status}.`,
+      updatedBy: req.user._id,
+      timestamp: new Date(),
+    });
+
+    await order.save();
+    res
+      .status(200)
+      .json({ success: true, message: "Order status updated.", data: order });
+  } catch (err) {
+    console.error("Update order status error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error updating order status.",
+      error: err.message,
+    });
+  }
+};
+
+// ─── MARK COD AS PAID (admin) ─────────────────────────────────────────────────
+// PUT /api/orders/:id/mark-paid
+exports.markCODPaid = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order)
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found." });
+
+    if (order.paymentMethod !== "cash_on_delivery") {
+      return res.status(400).json({
+        success: false,
+        message: "This endpoint is only for COD orders.",
+      });
+    }
+    if (order.paymentStatus === "paid") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Order is already marked as paid." });
+    }
+
+    order.paymentStatus = "paid";
+    order.paidAt = new Date();
+    order.statusHistory.push({
+      status: order.status,
+      note: "COD payment collected and marked as paid.",
+      updatedBy: req.user._id,
+      timestamp: new Date(),
+    });
+
+    await order.save();
+    res
+      .status(200)
+      .json({ success: true, message: "Order marked as paid.", data: order });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Error marking order as paid.",
+      error: err.message,
+    });
+  }
+};
+
+// ─── CANCEL ORDER ON PAYMENT FAILURE ──────────────────────────────────────────
+// PUT /api/orders/:id/cancel-failed
+exports.cancelFailedOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (!order)
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found." });
+
+    // Only allow cancellation if payment failed and order is still pending
+    if (order.paymentStatus === "paid") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Cannot cancel a paid order." });
+    }
+    if (order.status === "cancelled") {
+      return res
+        .status(400)
+        .json({ success: false, message: "Order is already cancelled." });
+    }
+    // Only the customer who placed it or admin can cancel
+    if (
+      order.customer.toString() !== req.user._id.toString() &&
+      req.user.role !== "admin"
+    ) {
+      return res
+        .status(403)
+        .json({ success: false, message: "Not authorised." });
+    }
+
+    order.status = "cancelled";
+    order.paymentStatus = "failed";
+    order.cancelledAt = new Date();
+    order.cancelledBy = req.user._id;
+    order.cancelReason = "Payment failed — order cancelled automatically.";
+    order.statusHistory.push({
+      status: "cancelled",
+      note: "Order cancelled due to payment failure.",
+      updatedBy: req.user._id,
+      timestamp: new Date(),
+    });
+
+    // Restore stock
+    for (const item of order.items) {
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: { stock: item.quantity },
+      });
+    }
+
+    await order.save();
+    res.status(200).json({
+      success: true,
+      message: "Order cancelled and stock restored.",
+      data: order,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Error cancelling order.",
+      error: err.message,
+    });
   }
 };
