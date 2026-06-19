@@ -14,3 +14,9 @@ exports.attachVendor = async (req, res, next) => {
     res.status(500).json({ success: false, message: "Vendor check failed." });
   }
 };
+
+// Attach vendor only when user is a vendor (skip for admin)
+exports.optionalAttachVendor = async (req, res, next) => {
+  if (req.user.role !== "vendor") return next();
+  return exports.attachVendor(req, res, next);
+};

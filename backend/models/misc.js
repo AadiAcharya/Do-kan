@@ -30,7 +30,7 @@ const reviewSchema = new mongoose.Schema(
 reviewSchema.index({ product: 1, user: 1 }, { unique: true }); // one review per user per product
 reviewSchema.index({ product: 1, rating: -1 });
 
-const Review = mongoose.model("Review", reviewSchema);
+const Review = mongoose.models.Review || mongoose.model("Review", reviewSchema);
 
 
 // ─────────────── PAYMENT ───────────────
@@ -77,7 +77,7 @@ paymentSchema.index({ user: 1 });
 paymentSchema.index({ transactionId: 1 });
 paymentSchema.index({ status: 1 });
 
-const Payment = mongoose.model("Payment", paymentSchema);
+const Payment = mongoose.models.Payment || mongoose.model("Payment", paymentSchema);
 
 
 // ─────────────── COUPON ───────────────
@@ -119,7 +119,7 @@ const couponSchema = new mongoose.Schema(
 couponSchema.index({ code: 1 });
 couponSchema.index({ isActive: 1, endDate: 1 });
 
-const Coupon = mongoose.model("Coupon", couponSchema);
+const Coupon = mongoose.models.Coupon || mongoose.model("Coupon", couponSchema);
 
 
 // ─────────────── WISHLIST ───────────────
@@ -147,7 +147,7 @@ const wishlistSchema = new mongoose.Schema(
 
 wishlistSchema.index({ user: 1 });
 
-const Wishlist = mongoose.model("Wishlist", wishlistSchema);
+const Wishlist = mongoose.models.Wishlist || mongoose.model("Wishlist", wishlistSchema);
 
 
 // ─────────────── NOTIFICATION ───────────────
@@ -191,7 +191,7 @@ const notificationSchema = new mongoose.Schema(
 notificationSchema.index({ user: 1, isRead: 1 });
 notificationSchema.index({ createdAt: -1 });
 
-const Notification = mongoose.model("Notification", notificationSchema);
+const Notification = mongoose.models.Notification || mongoose.model("Notification", notificationSchema);
 
 
 // ─────────────── AUDIT LOG ───────────────
@@ -213,7 +213,7 @@ auditLogSchema.index({ performedBy: 1 });
 auditLogSchema.index({ entity: 1, entityId: 1 });
 auditLogSchema.index({ createdAt: -1 });
 
-const AuditLog = mongoose.model("AuditLog", auditLogSchema);
+const AuditLog = mongoose.models.AuditLog || mongoose.model("AuditLog", auditLogSchema);
 
 
 // ─────────────── REFUND ───────────────
@@ -259,7 +259,7 @@ refundSchema.index({ order: 1 });
 refundSchema.index({ user: 1 });
 refundSchema.index({ status: 1 });
 
-const Refund = mongoose.model("Refund", refundSchema);
+const Refund = mongoose.models.Refund || mongoose.model("Refund", refundSchema);
 
 
 module.exports = { Review, Payment, Coupon, Wishlist, Notification, AuditLog, Refund };
