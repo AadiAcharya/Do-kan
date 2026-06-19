@@ -28,6 +28,7 @@ const Header = () => {
             {isLoggedIn ? (
               <div className="flex items-center gap-3">
                 <span className="text-sm text-gray-700 hidden sm:block">Hi, {user?.name?.split(" ")[0]}</span>
+                <button onClick={() => navigate("/profile")} className="text-sm font-medium text-gray-600 hover:text-blue-600">Profile</button>
                 {user?.role === "vendor" && (
                   <button onClick={() => navigate("/vendor/dashboard")} className="text-sm font-medium text-blue-600 hover:underline">Dashboard</button>
                 )}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import StarRating from "./StarRating";
 
 const ProductCard = ({ product, onClick }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -103,6 +104,12 @@ const ProductCard = ({ product, onClick }) => {
         <p className="font-semibold text-sm mb-1 line-clamp-2">
           {product?.name || "Product Name"}
         </p>
+        {(product?.rating > 0 || product?.reviewCount > 0) && (
+          <div className="flex items-center gap-1 mb-1">
+            <StarRating rating={product.rating || 0} size="sm" />
+            <span className="text-xs text-gray-400">({product.reviewCount || 0})</span>
+          </div>
+        )}
         <p className="text-gray-500 text-xs mb-2">
           {product?.category?.name || "Category"}
         </p>

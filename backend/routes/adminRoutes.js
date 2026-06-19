@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   getStats,
+  getRevenueChart,
   getUsers,
   banUser,
   unbanUser,
@@ -17,6 +18,7 @@ const { protect, restrictTo } = require("../middleware/auth");
 router.use(protect, restrictTo("admin")); // all admin routes require admin role
 
 router.get("/stats", getStats);
+router.get("/revenue", getRevenueChart);
 router.get("/users", getUsers);
 router.put("/users/:id/ban", banUser);
 router.put("/users/:id/unban", unbanUser);

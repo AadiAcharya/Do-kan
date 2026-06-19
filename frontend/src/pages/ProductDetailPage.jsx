@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { fetchProductById } from "../services/api";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import StarRating from "../components/StarRating";
+import ProductReviews from "../components/ProductReviews";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -103,6 +105,15 @@ export default function ProductDetailPage() {
             <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h1>
             {product.sku && <p className="text-xs text-gray-400 mb-3">SKU: {product.sku}</p>}
 
+            {(product.rating > 0 || product.reviewCount > 0) && (
+              <div className="flex items-center gap-2 mb-4">
+                <StarRating rating={product.rating || 0} />
+                <span className="text-sm text-gray-500">
+                  {product.rating?.toFixed(1)} ({product.reviewCount || 0} review{(product.reviewCount || 0) !== 1 ? "s" : ""})
+                </span>
+              </div>
+            )}
+
             <div className="flex items-center gap-3 mb-6">
               <span className="text-3xl font-bold text-gray-900">Rs. {product.price?.toLocaleString()}</span>
               {product.compareAtPrice && <span className="text-lg text-gray-400 line-through">Rs. {product.compareAtPrice?.toLocaleString()}</span>}
@@ -151,6 +162,12 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
+
+        <ProductReviews
+          productId={product._id}
+          productRating={product.rating}
+          reviewCount={product.reviewCount}
+        />
       </main>
     </div>
   );

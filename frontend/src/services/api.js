@@ -157,3 +157,117 @@ export const verifyKhalti = async (pidx, paymentId) => {
   });
   return res.json();
 };
+
+// ─── Profile ────────────────────────────────────────────────────────────────
+
+export const changePassword = async (payload) => {
+  const res = await fetch(`${API_BASE_URL}/users/password`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+};
+
+export const addAddress = async (payload) => {
+  const res = await fetch(`${API_BASE_URL}/users/addresses`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+};
+
+export const updateAddress = async (addressId, payload) => {
+  const res = await fetch(`${API_BASE_URL}/users/addresses/${addressId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+};
+
+export const deleteAddress = async (addressId) => {
+  const res = await fetch(`${API_BASE_URL}/users/addresses/${addressId}`, {
+    method: "DELETE",
+    headers: authHeader(),
+  });
+  return res.json();
+};
+
+// ─── Reviews ────────────────────────────────────────────────────────────────
+
+export const fetchProductReviews = async (productId, params = {}) => {
+  try {
+    const qs = new URLSearchParams(params).toString();
+    const res = await fetch(`${API_BASE_URL}/reviews/product/${productId}?${qs}`);
+    return res.json();
+  } catch (err) {
+    console.error("fetchProductReviews error:", err);
+    return { success: false, data: [] };
+  }
+};
+
+export const fetchMyReview = async (productId) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/reviews/product/${productId}/mine`, {
+      headers: authHeader(),
+    });
+    return res.json();
+  } catch (err) {
+    console.error("fetchMyReview error:", err);
+    return { success: false, data: null };
+  }
+};
+
+export const submitReview = async (payload) => {
+  const res = await fetch(`${API_BASE_URL}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+};
+
+export const updateReview = async (id, payload) => {
+  const res = await fetch(`${API_BASE_URL}/reviews/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeader() },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+};
+
+export const deleteReview = async (id) => {
+  const res = await fetch(`${API_BASE_URL}/reviews/${id}`, {
+    method: "DELETE",
+    headers: authHeader(),
+  });
+  return res.json();
+};
+
+// ─── Revenue ────────────────────────────────────────────────────────────────
+
+export const fetchAdminRevenue = async (period = "30d") => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/admin/revenue?period=${period}`, {
+      headers: authHeader(),
+    });
+    return res.json();
+  } catch (err) {
+    console.error("fetchAdminRevenue error:", err);
+    return { success: false, data: [] };
+  }
+};
+
+export const fetchVendorRevenue = async (period = "30d") => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/orders/vendor/revenue?period=${period}`, {
+      headers: authHeader(),
+    });
+    return res.json();
+  } catch (err) {
+    console.error("fetchVendorRevenue error:", err);
+    return { success: false, data: [] };
+  }
+};

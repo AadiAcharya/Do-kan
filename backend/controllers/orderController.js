@@ -1,6 +1,7 @@
 const Order = require("../models/Order");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
+const { getVendorRevenue } = require("../utils/revenue");
 
 exports.createOrder = async (req, res) => {
   try {
@@ -141,6 +142,17 @@ exports.getOrderById = async (req, res) => {
     res.status(200).json({ success: true, data: order });
   } catch (err) {
     res.status(500).json({ success: false, message: "Error fetching order." });
+  }
+};
+
+exports.getVendorRevenue = async (req, res) => {
+  try {
+    const period = req.query.period || "30d";
+    const data = await getVendorRevenue(req.vendor._id, period);
+    res.status(200).json({ success: true, data, period });
+  } catch (err) {
+    console.error("Vendor revenue error:", err);
+    res.status(500).json({ success: false, message: "Error fetching revenue data." });
   }
 };
 

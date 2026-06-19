@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Vendor = require("../models/Vendor");
 const Product = require("../models/Product");
 const Order = require("../models/Order");
+const { getAdminRevenue } = require("../utils/revenue");
 
 /**
  * GET /api/admin/stats
@@ -58,6 +59,20 @@ exports.getStats = async (req, res) => {
   } catch (err) {
     console.error("Admin stats error:", err);
     res.status(500).json({ success: false, message: "Error fetching stats." });
+  }
+};
+
+/**
+ * GET /api/admin/revenue?period=7d|30d|90d|12m
+ */
+exports.getRevenueChart = async (req, res) => {
+  try {
+    const period = req.query.period || "30d";
+    const data = await getAdminRevenue(period);
+    res.status(200).json({ success: true, data, period });
+  } catch (err) {
+    console.error("Revenue chart error:", err);
+    res.status(500).json({ success: false, message: "Error fetching revenue data." });
   }
 };
 

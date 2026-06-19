@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { fetchVendorProducts, fetchVendorOrders, createProduct, updateProduct, deleteProduct } from "../services/api";
+import { fetchVendorProducts, fetchVendorOrders, createProduct, updateProduct, deleteProduct, fetchVendorRevenue } from "../services/api";
+import RevenueChart from "../components/RevenueChart";
 
 const EMPTY_FORM = { name: "", description: "", price: "", stock: "", category: "", sku: "" };
 
@@ -20,6 +21,8 @@ export default function VendorDashboardPage() {
   const [formLoading, setFormLoading] = useState(false);
 
   const vendorId = vendor?._id;
+
+  const loadRevenue = useCallback((period) => fetchVendorRevenue(period), []);
 
   useEffect(() => {
     const load = async () => {
@@ -121,6 +124,11 @@ export default function VendorDashboardPage() {
               <p className={`text-3xl font-bold ${s.color}`}>{s.value}</p>
             </div>
           ))}
+        </div>
+
+        {/* Revenue Chart */}
+        <div className="mb-6">
+          <RevenueChart fetchData={loadRevenue} title="My Earnings" />
         </div>
 
         {/* Products Section */}

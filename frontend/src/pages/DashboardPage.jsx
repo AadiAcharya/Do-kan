@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ProductModeration from "../components/ProductModeration";
+import RevenueChart from "../components/RevenueChart";
+import { fetchAdminRevenue } from "../services/api";
 
 const API = "http://localhost:3001/api";
 
@@ -11,6 +13,8 @@ const DashboardPage = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const loadRevenue = useCallback((period) => fetchAdminRevenue(period), []);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -143,6 +147,11 @@ const DashboardPage = () => {
               </button>
             )}
           </div>
+        </div>
+
+        {/* Revenue Chart */}
+        <div className="mb-8">
+          <RevenueChart fetchData={loadRevenue} title="Platform Revenue" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

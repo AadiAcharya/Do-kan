@@ -18,6 +18,7 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import VendorDashboardPage from "./pages/VendorDashboardPage";
 import EsewaCallbackPage from "./pages/EsewaCallbackPage";
 import KhaltiCallbackPage from "./pages/KhaltiCallbackPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const PrivateRoute = ({ children, roles }) => {
   const { isLoggedIn, user, loading } = useAuth();
@@ -55,6 +56,14 @@ function App() {
           element={
             <PrivateRoute>
               <OrderConfirmationPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <ProfilePage />
             </PrivateRoute>
           }
         />

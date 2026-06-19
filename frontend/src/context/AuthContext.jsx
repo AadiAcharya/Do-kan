@@ -22,6 +22,21 @@ export const AuthProvider = ({ children }) => {
     setVendor(null);
   }, []);
 
+  const refreshUser = useCallback(async () => {
+    if (!token) return;
+    try {
+      const res = await fetch("http://localhost:3001/api/auth/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) { logout(); return; }
+      const data = await res.json();
+      setUser(data.user);
+      setVendor(data.vendor || null);
+    } catch {
+      logout();
+    }
+  }, [token, logout]);
+
   // Re-hydrate session on mount
   useEffect(() => {
     const hydrate = async () => {
@@ -44,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   }, [token, logout]);
 
   return (
-    <AuthContext.Provider value={{ user, vendor, token, loading, saveAuth, logout, isLoggedIn: !!user }}>
+    <AuthContext.Provider value={{ user, vendor, token, loading, saveAuth, logout, refreshUser, isLoggedIn: !!user }}>
       {children}
     </AuthContext.Provider>
   );
