@@ -100,8 +100,8 @@ exports.initiateEsewa = async (req, res) => {
     const amount = order.total;
     const taxAmount = 0;
     const totalAmount = amount;
-    const successUrl = `${FRONTEND_URL}/payment/esewa/success?paymentId=${payment._id}`;
-    const failureUrl = `${FRONTEND_URL}/payment/esewa/failure?paymentId=${payment._id}`;
+    const successUrl = `${FRONTEND_URL}/payment/esewa/success?paymentId=${payment._id}&orderId=${order._id}`;
+    const failureUrl = `${FRONTEND_URL}/payment/esewa/failure?paymentId=${payment._id}&orderId=${order._id}`;
 
     // Signature message: total_amount,transaction_uuid,product_code
     const message = `total_amount=${totalAmount},transaction_uuid=${transactionUuid},product_code=${ESEWA_PRODUCT_CODE}`;
@@ -141,12 +141,10 @@ exports.verifyEsewa = async (req, res) => {
   try {
     const { encodedData, paymentId } = req.body;
     if (!encodedData || !paymentId) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "encodedData and paymentId are required.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "encodedData and paymentId are required.",
+      });
     }
 
     // Decode base64 response from eSewa
@@ -197,13 +195,11 @@ exports.verifyEsewa = async (req, res) => {
 
     await markOrderPaid(payment.order, payment._id);
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "eSewa payment verified.",
-        orderId: payment.order,
-      });
+    res.status(200).json({
+      success: true,
+      message: "eSewa payment verified.",
+      orderId: payment.order,
+    });
   } catch (err) {
     console.error("eSewa verify error:", err);
     res
@@ -254,7 +250,7 @@ exports.initiateKhalti = async (req, res) => {
     });
 
     const payload = {
-      return_url: `${FRONTEND_URL}/payment/khalti/verify?paymentId=${payment._id}`,
+      return_url: `${FRONTEND_URL}/payment/khalti/verify?paymentId=${payment._id}&orderId=${order._id}`,
       website_url: FRONTEND_URL,
       amount: order.total * 100, // Khalti uses paisa (1 NPR = 100 paisa)
       purchase_order_id: order.orderNumber,
@@ -351,13 +347,11 @@ exports.verifyKhalti = async (req, res) => {
 
     await markOrderPaid(payment.order, payment._id);
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Khalti payment verified.",
-        orderId: payment.order,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Khalti payment verified.",
+      orderId: payment.order,
+    });
   } catch (err) {
     console.error("Khalti verify error:", err.response?.data || err.message);
     res

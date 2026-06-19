@@ -13,9 +13,13 @@ const {
   deleteProduct,
   getOrders,
 } = require("../controllers/adminController");
+const {
+  updateOrderStatus,
+  markCODPaid,
+} = require("../controllers/orderController");
 const { protect, restrictTo } = require("../middleware/auth");
 
-router.use(protect, restrictTo("admin")); // all admin routes require admin role
+router.use(protect, restrictTo("admin"));
 
 router.get("/stats", getStats);
 router.get("/revenue", getRevenueChart);
@@ -28,5 +32,9 @@ router.put("/vendors/:id/reject", rejectVendor);
 router.get("/products", getProducts);
 router.delete("/products/:id", deleteProduct);
 router.get("/orders", getOrders);
+
+// Order management from admin panel
+router.put("/orders/:id/status", updateOrderStatus);
+router.put("/orders/:id/mark-paid", markCODPaid);
 
 module.exports = router;
