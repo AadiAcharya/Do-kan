@@ -1,12 +1,24 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { itemCount } = useCart();
   const { isLoggedIn, user, logout } = useAuth();
+
+  const searchQuery = searchParams.get("search") || "";
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    if (value) {
+      navigate(`/?search=${encodeURIComponent(value)}`, { replace: true });
+    } else {
+      navigate("/", { replace: true });
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -98,9 +110,9 @@ const Header = () => {
             type="text"
             placeholder="Search products..."
             className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-sm"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") navigate(`/?search=${e.target.value}`);
-            }}
+            value={searchQuery}
+            onChange={handleSearchChange}
+            autoFocus={!!searchQuery}
           />
           <button
             onClick={() => navigate("/cart")}
