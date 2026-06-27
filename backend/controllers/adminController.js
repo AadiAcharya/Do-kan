@@ -2,7 +2,10 @@ const User = require("../models/User");
 const Vendor = require("../models/Vendor");
 const Product = require("../models/Product");
 const Order = require("../models/Order");
-const { getAdminRevenue } = require("../utils/revenue");
+const {
+  sendVendorApprovedEmail,
+  sendVendorRejectedEmail,
+} = require("../utils/emailService");
 
 /**
  * GET /api/admin/stats
@@ -59,20 +62,6 @@ exports.getStats = async (req, res) => {
   } catch (err) {
     console.error("Admin stats error:", err);
     res.status(500).json({ success: false, message: "Error fetching stats." });
-  }
-};
-
-/**
- * GET /api/admin/revenue?period=7d|30d|90d|12m
- */
-exports.getRevenueChart = async (req, res) => {
-  try {
-    const period = req.query.period || "30d";
-    const data = await getAdminRevenue(period);
-    res.status(200).json({ success: true, data, period });
-  } catch (err) {
-    console.error("Revenue chart error:", err);
-    res.status(500).json({ success: false, message: "Error fetching revenue data." });
   }
 };
 
@@ -207,6 +196,13 @@ exports.approveVendor = async (req, res) => {
     // Promote the user's role to vendor
     await User.findByIdAndUpdate(vendor.user._id, { role: "vendor" });
 
+    // Send approval email — fire and forget, never blocks the response
+    sendVendorApprovedEmail({
+      name: vendor.user.name,
+      email: vendor.user.email,
+      storeName: vendor.storeName,
+    }).catch(() => {});
+
     res
       .status(200)
       .json({ success: true, message: "Vendor approved.", data: vendor });
@@ -236,6 +232,15 @@ exports.rejectVendor = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: "Vendor not found." });
+
+    // Send rejection email — fire and forget, never blocks the response
+    sendVendorRejectedEmail({
+      name: vendor.user.name,
+      email: vendor.user.email,
+      storeName: vendor.storeName,
+      reason,
+    }).catch(() => {});
+
     res
       .status(200)
       .json({ success: true, message: "Vendor rejected.", data: vendor });
